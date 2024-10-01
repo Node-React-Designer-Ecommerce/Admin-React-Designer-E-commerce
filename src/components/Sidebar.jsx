@@ -13,7 +13,7 @@ export default function Sidebar() {
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
 
             {/* Sidebar */}
-            <div className="drawer-side">
+            <div className="drawer-side z-10">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu text-xl font-bold bg-base-200 min-h-full w-80 p-10 gap-6 flex items-start">
                     {/* Sidebar content here */}
@@ -27,10 +27,10 @@ export default function Sidebar() {
             </div>
 
             {/* Main Content */}
-            <div className="flex justify-center">
-                <div className="flex-1 p-10">
-                    <Outlet />
+            <div className="flex justify-center ">
+                <div className="p-10">
                     <ButtonToggle />
+                    <Outlet />
                 </div>
             </div>
         </div>
