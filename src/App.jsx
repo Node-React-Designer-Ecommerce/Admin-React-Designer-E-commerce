@@ -7,6 +7,7 @@ import Orders from './pages/Orders';
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import AddProduct from "./components/AddProduct";
+import EditProduct from "./components/EditProduct";
 // import ProtectedRoute from "./Auth/ProtectedRoute";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <Route path="orders" element={<Orders />} />
             </Route>
             <Route path="/add-product" element={<AddProduct />} />
+            <Route path="/edit-product/:id" element={<EditProduct />} />
     </Routes>
 </BrowserRouter>
   );
