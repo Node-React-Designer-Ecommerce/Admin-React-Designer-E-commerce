@@ -31,6 +31,7 @@ export const addProduct = async (id, data) => {
     throw error;
   }
 };
+
 export const updateProduct = async (id, updateData) => {
   try {
     const res = await axios.patch(`${API_URL}/${id}`, updateData);
@@ -47,6 +48,17 @@ export const deleteProduct = async (id) => {
     return res;
   } catch (error) {
     console.error("Error Fetching product with Id", error);
+    throw error;
+  }
+};
+
+// For Categories
+export const addCategory = async (categoryData) => {
+  try {
+    const res = await axios.post(API_URL, categoryData);
+    return res.data.data; // تأكد من أن تعيد البيانات الصحيحة
+  } catch (error) {
+    console.error("Error adding category:", error);
     throw error;
   }
 };
