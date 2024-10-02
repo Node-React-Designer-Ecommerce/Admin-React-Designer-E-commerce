@@ -4,7 +4,6 @@ import HomeIcon from "../Icons/HomeIcon";
 import ProductsIcon from "../Icons/ProductsIcon";
 import UsersIcon from "../Icons/UsersIcon";
 import OrderIcon from "../Icons/OrderIcon";
-import ButtonToggle from "../Icons/ButtonToggle";
 
 
 
@@ -12,7 +11,7 @@ export default function Sidebar() {
     return (
         <div className="drawer lg:drawer-open flex pt-20">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <ButtonToggle />
+          
             {/* Sidebar */}
             <div className="drawer-side z-10">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>

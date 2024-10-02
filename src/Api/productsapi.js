@@ -12,9 +12,9 @@ export const getAllProducts = async () => {
   }
 };
 
-export const getOneProduct = async (id) => {
+export const getOneProduct = async (id, headers) => {
   try {
-    const res = await axios.get(`${API_URL}/${id}`);
+    const res = await axios.get(`${API_URL}/${id}`, { headers });
     return res;
   } catch (error) {
     console.error("Error Fetching product with Id", error);
@@ -22,28 +22,29 @@ export const getOneProduct = async (id) => {
   }
 };
 
-export const addProduct = async (data , headers) => {
+export const addProduct = async (data, headers) => {
   try {
-    const res = await axios.post(API_URL, data, {headers});
+    const res = await axios.post(API_URL, data, { headers });
     return res;
   } catch (error) {
     console.error("Error Fetching product ", error);
     throw error;
   }
 };
-export const updateProduct = async (id, updateData) => {
+export const updateProduct = async (id, updateData, headers) => {
   try {
-    const res = await axios.patch(`${API_URL}/${id}`, updateData);
+    const res = await axios.patch(`${API_URL}/${id}`, updateData, { headers });
+    console.log(res.data);
     return res;
   } catch (error) {
-    console.error("Error Fetching product with Id", error);
+    console.error("Error updating product with Id", id, error.response.data);
     throw error;
   }
 };
 
 export const deleteProduct = async (id, headers) => {
   try {
-    const res = await axios.delete(`${API_URL}/${id}`, {headers});
+    const res = await axios.delete(`${API_URL}/${id}`, { headers });
     return res.data;
   } catch (error) {
     console.error("Error Fetching product with Id", error);
