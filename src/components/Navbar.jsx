@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthContext"
+import ButtonToggle from "../Icons/ButtonToggle";
+
 
 function Navbar() {
     const { logout } = useContext(AuthContext);
@@ -16,7 +18,7 @@ function Navbar() {
         <div className="navbar bg-base-100 w-full fixed z-20 px-8 ">
             <div className="flex-1">
                 <Link to={"/"} className="font-mono font-bold text-2xl hidden sm:block ">Admin</Link>
-            
+                <ButtonToggle />
             </div>
             <div className="flex-none gap-2">
                 <div className="form-control">

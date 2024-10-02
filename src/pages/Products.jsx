@@ -4,15 +4,17 @@ import DeleteIcon from "./../Icons/DeleteIcon"
 import { AuthContext } from "../Auth/AuthContext";
 import Skelton from "../components/Skelton";
 import { Link } from "react-router-dom";
+import EditIcon from "../Icons/EditIcon";
 
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { token } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const data = await getAllProducts();
         setProducts(data.data.data.products);
@@ -24,11 +26,12 @@ function Products() {
     };
 
     fetchProducts();
-  }, [token]);
+  }, [user]);
 
   const handleDelete = async (id) => {
+
     const headers = {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${user.token}`,
     };
     try {
       await deleteProduct(id, headers);
@@ -101,7 +104,7 @@ function Products() {
                   <button onClick={() => handleDelete(product._id)}><DeleteIcon /></button>
                 </td>
                 <td>
-                  <button>edit</button>
+                  <Link to={`/edit-product/${product._id}`}><EditIcon/></Link>
                 </td>
               </tr>
             ))}
