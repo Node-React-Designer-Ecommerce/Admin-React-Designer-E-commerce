@@ -51,3 +51,14 @@ export const deleteProduct = async (id, headers) => {
     throw error;
   }
 };
+
+// For Categories
+export const addCategory = async (categoryData) => {
+  try {
+    const res = await axios.post(API_URL, categoryData);
+    return res.data.data; // تأكد من أن تعيد البيانات الصحيحة
+  } catch (error) {
+    console.error("Error adding category:", error);
+    throw error;
+  }
+};
