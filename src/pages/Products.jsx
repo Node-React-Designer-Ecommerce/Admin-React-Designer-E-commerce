@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { deleteProduct, getAllProducts } from "./../Api/productsapi";
 import DeleteIcon from "./../Icons/DeleteIcon"
+import { AuthContext } from "../Auth/AuthContext";
+import Skelton from "../components/Skelton";
+import { Link } from "react-router-dom";
+
 
 function Products() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,23 +20,30 @@ function Products() {
       } catch (error) {
         console.error("Error fetching products:", error);
       }
+      setLoading(false);
     };
 
     fetchProducts();
-  }, []);
+  }, [token]);
 
   const handleDelete = async (id) => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     try {
-      await deleteProduct(id);
+      await deleteProduct(id, headers);
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id))
+      console.log("Product deleted successfully")
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   }
 
+  if (loading) {
+    <div><Skelton /></div>
+  }
   return (
-    <div className="overflow-x-auto">
-      {/* <h1 className="text-5xl p-3  underline  underline-offset-8">Products</h1> */}
+    <div className="overflow-x-auto ">
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
@@ -62,10 +75,7 @@ function Products() {
                   <div className="flex items-center gap-3">
                     <div className="avatar">
                       <div className="mask mask-squircle h-16 w-16">
-                        <img
-                          src={product.image}
-                          alt={product.name} // Use product name for alt text
-                        />
+                        <img src={product.image} alt={product.name} />
                       </div>
                     </div>
                     <div>
@@ -90,10 +100,21 @@ function Products() {
                 <td>
                   <button onClick={() => handleDelete(product._id)}><DeleteIcon /></button>
                 </td>
+                <td>
+                  <button>edit</button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+      </div>
+      <div>
+        <div className="flex gap-3">
+          <Link to={"/add-product"} className="font-bold btn">              
+            Add Product
+          </Link>
+        </div>
+
       </div>
     </div>
   );

@@ -4,20 +4,27 @@ import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Users from "./pages/Users";
 import Orders from './pages/Orders';
+import Navbar from "./components/Navbar";
+import Login from "./pages/Login";
+import AddProduct from "./components/AddProduct";
+// import ProtectedRoute from "./Auth/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
+    <Navbar />
     <Routes>
-      
-      <Route path="/" element={<Home/>}>
-      <Route path="products" element={<Products/>}/>
-      <Route path="categories" element={<Categories/>}/>
-      <Route path="users" element={<Users/>}/>
-      <Route path="orders" element={<Orders/>}/>
-      </Route>
+        <Route path="/login" element={<Login />} />
+        
+            <Route path="/" element={<Home />}>
+                <Route path="products" element={<Products />} />
+                <Route path="categories" element={<Categories />} />
+                <Route path="users" element={<Users />} />
+                <Route path="orders" element={<Orders />} />
+            </Route>
+            <Route path="/add-product" element={<AddProduct />} />
     </Routes>
-    </BrowserRouter>
+</BrowserRouter>
   );
 }
 
