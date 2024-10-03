@@ -29,12 +29,8 @@ function Products() {
   }, [user]);
 
   const handleDelete = async (id) => {
-
-    const headers = {
-      Authorization: `Bearer ${user.token}`,
-    };
     try {
-      await deleteProduct(id, headers);
+      await deleteProduct(id,);
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id))
       console.log("Product deleted successfully")
     } catch (error) {
@@ -51,7 +47,7 @@ function Products() {
         <table className="table text-2xl">
           {/* head */}
           <thead className="text-xl ">
-            <tr>
+            <tr >
               <th>
                 <label>
                   <input type="checkbox" className="checkbox hidden" />
@@ -61,8 +57,14 @@ function Products() {
               <th>Price</th>
               <th>Description</th>
               <th>Quantity & Size</th>
-              <th></th>
-              <th></th>
+              <th ></th>
+              <th> 
+                <div className="flex gap-3">
+                <Link to={"/add-product"} className="font-bold btn">
+                  Add Product
+                </Link>
+              </div>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +106,7 @@ function Products() {
                   <button onClick={() => handleDelete(product._id)}><DeleteIcon /></button>
                 </td>
                 <td>
-                  <Link to={`/edit-product/${product._id}`}><EditIcon/></Link>
+                  <Link to={`/edit-product/${product._id}`}><EditIcon /></Link>
                 </td>
               </tr>
             ))}
@@ -112,11 +114,6 @@ function Products() {
         </table>
       </div>
       <div>
-        <div className="flex gap-3">
-          <Link to={"/add-product"} className="font-bold btn">              
-            Add Product
-          </Link>
-        </div>
 
       </div>
     </div>

@@ -1,11 +1,9 @@
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { addProduct } from "../Api/productsapi";
-import { AuthContext } from "../Auth/AuthContext";
 import { useNavigate } from "react-router";
 
 function AddProduct() {
   const navigate = useNavigate()
-  const { user } = useContext(AuthContext);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
@@ -33,9 +31,6 @@ function AddProduct() {
       console.error("Form validation failed");
       return; 
   }
-    const headers = {
-      Authorization: `Bearer ${user.token}`,
-    };
     const formDataToSend = new FormData();
     console.log(formDataToSend)
     formDataToSend.append("name", formData.name);
@@ -50,7 +45,7 @@ function AddProduct() {
       formDataToSend.append("image", formData.image);
     }
     try {
-      const res = await addProduct(formDataToSend, headers);
+      const res = await addProduct(formDataToSend);
       setFormData(res.data)
       navigate("/products")
       console.log("Product added sucessfully", res);
@@ -96,7 +91,7 @@ const validate = () =>{
       errors.description = "Descriptions is required";
       isValid = false;
   }
-  if(price <= 0){
+  if(price < 0){
       errors.price = "Price must be greater than 0"
       isValid = false;
   }
