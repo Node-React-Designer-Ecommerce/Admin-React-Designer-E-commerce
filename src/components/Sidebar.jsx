@@ -17,7 +17,7 @@ export default function Sidebar() {
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu text-xl font-bold bg-base-200 min-h-full w-80 p-10 gap-6 flex items-start">
                     {/* Sidebar content here */}
-                    <li><Link to={"/"} className="m-auto"><HomeIcon/> Dashboard</Link></li>
+                    <li><Link to={"dashboard"} className="m-auto"><HomeIcon/> Dashboard</Link></li>
                     <li><Link to={"products"} className="m-auto"><ProductsIcon/> Products</Link></li>
                     <li><Link to={"categories"} className="m-auto"><CategroyIcon/> Categories</Link></li>
                     <li><Link to={"users"} className="m-auto"><UsersIcon/>Users</Link></li>

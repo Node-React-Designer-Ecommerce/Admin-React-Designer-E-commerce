@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
 
 const API_URL = "https://react-node-designer.glitch.me/api/v1/categories";
@@ -12,7 +12,12 @@ const Categories = () => {
   const [newCategoryData, setNewCategoryData] = useState({
     name: "",
     description: "",
+    image: "",
   });
+
+
+
+
 
   // حالة لإظهار نموذج إضافة الفئة الجديدة
   const [isAdding, setIsAdding] = useState(false); // متغير لتتبع حالة الإضافة
@@ -52,7 +57,7 @@ const Categories = () => {
       setCategories(categories.filter((category) => category._id !== id));
       setFilteredCategories(
         filteredCategories.filter((category) => category._id !== id)
-      ); // تحديث الفلترة
+      );
     } catch (error) {
       console.error("Error deleting category:", error);
     }
@@ -97,6 +102,7 @@ const Categories = () => {
       console.error("Error adding category:", error);
     }
   };
+  
 
   return (
     <div className="w-full">
@@ -170,7 +176,7 @@ const Categories = () => {
                   <tr key={category._id}>
                     <td>
                       {editingCategory &&
-                        editingCategory._id === category._id ? (
+                      editingCategory._id === category._id ? (
                         <input
                           type="text"
                           className="input input-bordered w-full"
@@ -188,7 +194,7 @@ const Categories = () => {
                     </td>
                     <td>
                       {editingCategory &&
-                        editingCategory._id === category._id ? (
+                      editingCategory._id === category._id ? (
                         <input
                           type="text"
                           className="input input-bordered w-full"
@@ -206,7 +212,7 @@ const Categories = () => {
                     </td>
                     <td>
                       {editingCategory &&
-                        editingCategory._id === category._id ? (
+                      editingCategory._id === category._id ? (
                         <button
                           className="btn bg-green-900 text-white"
                           onClick={handleSave}
