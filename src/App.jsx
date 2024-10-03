@@ -3,30 +3,32 @@ import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Categories from "./pages/Categories";
 import Users from "./pages/Users";
-import Orders from './pages/Orders';
+import Orders from "./pages/Orders";
 import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
+import Dashboard from "./pages/Dashboard";
 // import ProtectedRoute from "./Auth/ProtectedRoute";
 
 function App() {
   return (
     <BrowserRouter>
-    <Navbar />
-    <Routes>
+      <Navbar />
+      <Routes>
         <Route path="/login" element={<Login />} />
-        
-            <Route path="/" element={<Home />}>
-                <Route path="products" element={<Products />} />
-                <Route path="categories" element={<Categories />} />
-                <Route path="users" element={<Users />} />
-                <Route path="orders" element={<Orders />} />
-            </Route>
-            <Route path="/add-product" element={<AddProduct />} />
-            <Route path="/edit-product/:id" element={<EditProduct />} />
-    </Routes>
-</BrowserRouter>
+
+        <Route path="/" element={<Home />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="products" element={<Products />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="users" element={<Users />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/edit-product/:id" element={<EditProduct />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
