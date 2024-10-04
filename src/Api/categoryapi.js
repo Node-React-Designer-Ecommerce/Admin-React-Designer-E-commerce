@@ -1,9 +1,8 @@
 import axiosInstance from './axiosInstance';
-const API_URL = "https://react-node-designer.glitch.me/api/v1/categories";
 
-export const fetchCategories = async () => {
+export const getCategories = async () => {
   try {
-    const res = await axiosInstance.get(`${API_URL}?limit=1000`);
+    const res = await axiosInstance.get(`/categories`);
     return res;
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -14,7 +13,7 @@ export const fetchCategories = async () => {
 
 export const addCategory = async (categoryData) => {
   try {
-    const res = await axiosInstance.post(API_URL, categoryData);
+    const res = await axiosInstance.post("/categories", categoryData);
     return res;
   } catch (error) {
     console.error("Error adding category:", error);
@@ -24,7 +23,7 @@ export const addCategory = async (categoryData) => {
 
 export const updateCategory = async (id, updateData) => {
   try {
-    const res = await axiosInstance.patch(`${API_URL}/${id}`, updateData);
+    const res = await axiosInstance.patch(`/categories/${id}`, updateData);
     console.log(res.data);
     return res;
   } catch (error) {
@@ -35,7 +34,7 @@ export const updateCategory = async (id, updateData) => {
 
 export const deleteCategory = async (id) => {
   try {
-    const res = await axiosInstance.delete(`${API_URL}/${id}`);
+    const res = await axiosInstance.delete(`/categories/${id}`);
     return res;
   } catch (error) {
     console.error("Error Fetching category with Id", error);

@@ -1,10 +1,9 @@
 import axiosInstance from './axiosInstance';
 
-const API_URL = "https://react-node-designer.glitch.me/api/v1/products";
 
 export const getAllProducts = async () => {
   try {
-    const res = await axiosInstance.get(`${API_URL}?limit=1000`);
+    const res = await axiosInstance.get(`/products?limit=1000`);
     return res;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -14,7 +13,7 @@ export const getAllProducts = async () => {
 
 export const getOneProduct = async (id) => {
   try {
-    const res = await axiosInstance.get(`${API_URL}/${id}`);
+    const res = await axiosInstance.get(`/products/${id}`);
     return res;
   } catch (error) {
     console.error("Error Fetching product with Id", error);
@@ -24,7 +23,7 @@ export const getOneProduct = async (id) => {
 
 export const addProduct = async (data) => {
   try {
-    const res = await axiosInstance.post(API_URL, data);
+    const res = await axiosInstance.post("/products", data);
     return res;
   } catch (error) {
     console.error("Error Fetching product ", error);
@@ -34,7 +33,7 @@ export const addProduct = async (data) => {
 
 export const updateProduct = async (id, updateData) => {
   try {
-    const res = await axiosInstance.patch(`${API_URL}/${id}`, updateData);
+    const res = await axiosInstance.patch(`/products/${id}`, updateData);
     console.log(res.data);
     return res;
   } catch (error) {
@@ -45,7 +44,7 @@ export const updateProduct = async (id, updateData) => {
 
 export const deleteProduct = async (id, ) => {
   try {
-    const res = await axiosInstance.delete(`${API_URL}/${id}`);
+    const res = await axiosInstance.delete(`/products/${id}`);
     return res.data;
   } catch (error) {
     console.error("Error Fetching product with Id", error);

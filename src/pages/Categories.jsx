@@ -1,7 +1,5 @@
 import {  useEffect, useState } from "react";
-import axios from "axios";
-
-const API_URL = "https://react-node-designer.glitch.me/api/v1/categories";
+import { addCategory, deleteCategory, getCategories, updateCategory } from "../Api/categoryapi";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -12,21 +10,14 @@ const Categories = () => {
   const [newCategoryData, setNewCategoryData] = useState({
     name: "",
     description: "",
-    image: "",
   });
 
 
-
-
-
-  // حالة لإظهار نموذج إضافة الفئة الجديدة
   const [isAdding, setIsAdding] = useState(false); // متغير لتتبع حالة الإضافة
-
-  // جلب الفئات من الـ API
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`${API_URL}?limit=1000`);
+        const res = await getCategories();
         setCategories(res.data.data.categories);
         setFilteredCategories(res.data.data.categories);
         setLoading(false);
@@ -53,11 +44,12 @@ const Categories = () => {
   // حذف الفئة
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await deleteCategory(id);
       setCategories(categories.filter((category) => category._id !== id));
       setFilteredCategories(
         filteredCategories.filter((category) => category._id !== id)
       );
+      console.log("Category deleted successfully");
     } catch (error) {
       console.error("Error deleting category:", error);
     }
@@ -75,7 +67,7 @@ const Categories = () => {
   // حفظ التعديلات
   const handleSave = async () => {
     try {
-      await axios.put(`${API_URL}/${editingCategory._id}`, newCategoryData);
+      await updateCategory(editingCategory._id,newCategoryData);
       const updatedCategories = categories.map((category) =>
         category._id === editingCategory._id
           ? { ...category, ...newCategoryData }
@@ -92,12 +84,14 @@ const Categories = () => {
   // إضافة فئة جديدة
   const handleAddCategory = async () => {
     try {
-      const res = await axios.post(API_URL, newCategoryData);
-      const addedCategory = res.data.data; // الفئة المضافة الجديدة
-      setCategories([...categories, addedCategory]); // إضافة الفئة إلى القائمة
-      setFilteredCategories([...filteredCategories, addedCategory]); // إضافة الفئة إلى الفلاتر
-      setNewCategoryData({ name: "", description: "" }); // إعادة تعيين البيانات الجديدة
-      setIsAdding(false); // إخفاء نموذج الإضافة بعد النجاح
+      const res = await addCategory(newCategoryData);
+      console.log(res);
+      const addedCategory = res.data.data; 
+      setCategories((prevCategories) => [...prevCategories, addedCategory]);
+      setFilteredCategories((prevFilteredCategories) => [...prevFilteredCategories, addedCategory]); 
+      setNewCategoryData({ name: "", description: "" });
+      setIsAdding(false);
+      console.log("Category added successfully");
     } catch (error) {
       console.error("Error adding category:", error);
     }
@@ -173,7 +167,7 @@ const Categories = () => {
               </thead>
               <tbody>
                 {filteredCategories.map((category) => (
-                  <tr key={category._id}>
+                  <tr key={category._id || category.name}>
                     <td>
                       {editingCategory &&
                       editingCategory._id === category._id ? (

@@ -30,7 +30,7 @@ function Products() {
 
   const handleDelete = async (id) => {
     try {
-      await deleteProduct(id,);
+      await deleteProduct(id);
       setProducts((prevProducts) => prevProducts.filter(product => product._id !== id))
       console.log("Product deleted successfully")
     } catch (error) {
