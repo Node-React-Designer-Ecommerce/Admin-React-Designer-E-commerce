@@ -1,13 +1,9 @@
-
-import Sidebar from '../components/Sidebar'
+import Sidebar from "../components/Sidebar";
 
 export default function Home() {
   return (
-    <>
-    <div className='flex justify-center'> 
-
+    <div className="flex">
+      <Sidebar />
     </div>
-    <Sidebar/>
-    </>
-  )
+  );
 }

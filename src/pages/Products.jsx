@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 import { deleteProduct, getAllProducts } from "./../Api/productsapi";
-import DeleteIcon from "./../Icons/DeleteIcon"
+import DeleteIcon from "./../Icons/DeleteIcon";
 import Skelton from "../components/Skelton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditIcon from "../Icons/EditIcon";
 import AddProduct from "../components/AddProduct";
 
-
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { category } = useParams(); 
+  const { category } = useParams();
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -23,7 +21,8 @@ function Products() {
         console.log(data);
         if (category) {
           const filteredProducts = data.data.data.products.filter(
-            (product) => product.category?.name.toLowerCase() === category.toLowerCase()
+            (product) =>
+              product.category?.name.toLowerCase() === category.toLowerCase()
           );
           setProducts(filteredProducts);
         } else {
@@ -41,29 +40,36 @@ function Products() {
   const handleDelete = async (id) => {
     try {
       await deleteProduct(id);
-      setProducts((prevProducts) => prevProducts.filter(product => product._id !== id))
-      console.log("Product deleted successfully")
+      setProducts((prevProducts) =>
+        prevProducts.filter((product) => product._id !== id)
+      );
+      console.log("Product deleted successfully");
     } catch (error) {
       console.error("Error deleting product:", error);
     }
-  }
+  };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
   if (loading) {
-    <div><Skelton /></div>
+    <div>
+      <Skelton />
+    </div>;
   }
   return (
     <div className="overflow-x-auto ">
-       <div className="mb-4">
+      <div className="mb-4">
         <button onClick={() => navigate("/products")} className="btn">
           All
         </button>
         <button onClick={() => navigate("/products/man")} className="btn ms-2">
           Man
         </button>
-        <button onClick={() => navigate("/products/women")} className="btn ms-2">
+        <button
+          onClick={() => navigate("/products/women")}
+          className="btn ms-2"
+        >
           Women
         </button>
         <button onClick={() => navigate("/products/kids")} className="btn ms-2">
@@ -73,8 +79,8 @@ function Products() {
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
-          <thead className="text-xl ">
-            <tr >
+          <thead className="text-center text-2xl text-purpleColor">
+            <tr>
               <th></th>
               <th>Name</th>
               <th>Price</th>
@@ -84,11 +90,13 @@ function Products() {
               <th></th>
               <th>
                 <div className="flex">
-                  <button onClick={toggleModal} className="font-bold btn">
+                  <button
+                    onClick={toggleModal}
+                    className="font-bold btn bg-mintColor text-white text-lg hover:bg-purpleColor"
+                  >
                     Add Product
                   </button>
                 </div>
-
               </th>
             </tr>
           </thead>
@@ -108,29 +116,48 @@ function Products() {
                     </div>
                     <div>
                       <div className="font-bold capitalize">{product.name}</div>
-                      <div className="text-sm opacity-50">{product.createdAt}</div>
+                      <div className="text-sm opacity-50">
+                        {product.createdAt}
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td>{product.price}</td>
                 <td className="w-32">
-                  <div className="text-sm opacity-75 text-center">{product.description}</div>
-                </td>
-                <td className="text-[19px] text-center">{product.category?.name}</td>
-                <td >{product.stock && product.stock.map((item, index) => (
-                  <div className="px-10" key={index}>
-                    <div className="flex items-start  w-full max-w-xs gap-5">
-                      <p className="text-center text-[20px]"> {item.quantity}</p>
-                      <p className="opacity-65 ">{"-"}</p>
-                      <p className="text-center text-[20px]"> {item.size}</p>
-                    </div>
+                  <div className="text-sm opacity-75 text-center">
+                    {product.description}
                   </div>
-                ))}</td>
-                <td>
-                  <button onClick={() => handleDelete(product._id)}><DeleteIcon /></button>
+                </td>
+                <td className="text-[19px] text-center">
+                  {product.category?.name}
                 </td>
                 <td>
-                  <Link to={`/edit-product/${product._id}`}><EditIcon /></Link>
+                  {product.stock &&
+                    product.stock.map((item, index) => (
+                      <div className="px-10" key={index}>
+                        <div className="flex items-start  w-full max-w-xs gap-5">
+                          <p className="text-center text-[20px]">
+                            {" "}
+                            {item.quantity}
+                          </p>
+                          <p className="opacity-65 ">{"-"}</p>
+                          <p className="text-center text-[20px]">
+                            {" "}
+                            {item.size}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                </td>
+                <td>
+                  <button onClick={() => handleDelete(product._id)}>
+                    <DeleteIcon />
+                  </button>
+                </td>
+                <td>
+                  <Link to={`/edit-product/${product._id}`}>
+                    <EditIcon />
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -150,9 +177,7 @@ function Products() {
             </div>
           </div>
         )}
-
       </div>
-
     </div>
   );
 }

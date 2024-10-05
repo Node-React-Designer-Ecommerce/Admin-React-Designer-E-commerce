@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import AddProduct from "./components/AddProduct";
 import EditProduct from "./components/EditProduct";
 import Dashboard from "./pages/Dashboard";
+import Designs from "./pages/Designs";
 // import ProtectedRoute from "./Auth/ProtectedRoute";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="categories" element={<Categories />} />
           <Route path="users" element={<Users />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="designs" element={<Designs />} />
         </Route>
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/edit-product/:id" element={<EditProduct />} />

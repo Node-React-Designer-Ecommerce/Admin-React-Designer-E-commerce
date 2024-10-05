@@ -24,7 +24,7 @@ function Users() {
 
   return (
     <div>
-      <h1 className="font-bold text-3xl mb-5 ">Users</h1>
+      <h1 className="font-bold text-3xl mb-5 text-purpleColor ">Users</h1>
       <div>
         {loading ? (
           [...Array(10)].map((_, index) => <Skelton key={index} />)
@@ -36,7 +36,7 @@ function Users() {
               users.map((user) => (
                 <div
                   key={user._id}
-                  className="card bg-base-100 w-80 shadow-xl mb-6"
+                  className="card bg-base-100 w-80 shadow-xl mb-6 rounded"
                 >
                   <figure className="rounded-full w-36 h-36 mx-auto mt-12">
                     <img
