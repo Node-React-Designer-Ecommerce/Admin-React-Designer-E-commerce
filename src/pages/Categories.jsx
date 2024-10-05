@@ -18,6 +18,7 @@ const Categories = () => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
+        console.log(res);
         setCategories(res.data.data.categories);
         setFilteredCategories(res.data.data.categories);
         setLoading(false);

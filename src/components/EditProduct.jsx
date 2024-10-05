@@ -1,17 +1,18 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"
-import { AuthContext } from "../Auth/AuthContext";
 import { getOneProduct, updateProduct } from "../Api/productsapi";
+import { getCategories } from './../Api/categoryapi';
 
 function EditProduct() {
     const navigate = useNavigate();
     const { id } = useParams();
-    const { user } = useContext(AuthContext);
     const [errors, setErrors] = useState({});
+    const [categories, setCategories] = useState([]);
     const [formData, setFormData] = useState({ 
         name: "",
         description: "",
         price: 0,
+        category: "",
         stock: [{
             quantity: 0,
             size: ""
@@ -22,18 +23,14 @@ function EditProduct() {
 
     useEffect(() => {
         const fetchProduct = async () => {
-            if (user && user.token) {
-                const headers = {
-                    Authorization: `Bearer ${user.token}`
-                };
-
                 try {
-                    const res = await getOneProduct(id, headers);
+                    const res = await getOneProduct(id);
                     console.log("Fetched product data:", res.data.data.product);
                     setFormData({ ...formData,
                         name: res.data.data.product.name || "",
                         description: res.data.data.product.description || "",
                         price: res.data.data.product.price || 0,
+                        category: res.data.data.product.category || "",
                         stock: res.data.data.product.stock || [{ quantity: 0, size: "" }],
                         image: res.data.data.product.image || "",
                         error: {}
@@ -42,9 +39,19 @@ function EditProduct() {
                     console.error("Error fetching product", error);
                 }
             }
+
+        const fetchCategories = async () => {
+            try {
+                const res = await getCategories(); // Assume this API returns the list of categories
+                setCategories(res.data.data.categories); // Adjust according to your API response
+            } catch (error) {
+                console.error("Error fetching categories", error);
+            }
         };
+
         fetchProduct();
-    }, [id, user]);
+        fetchCategories();
+    }, [id]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -61,17 +68,8 @@ function EditProduct() {
             console.error("Form validation failed");
             return; 
         }
-    
-        if (!user || !user.token) {
-            console.error("User is not logged in or token is missing");
-            return;
-        }
-        const headers = {
-            Authorization: `Bearer ${user.token}`
-        };
-
         try {
-            const res = await updateProduct(id, formData, headers);
+            const res = await updateProduct(id, formData);
             console.log(res.data)
             setFormData(res.data)
             navigate("/products")
@@ -95,7 +93,6 @@ function EditProduct() {
         }));
     };
 
-
     const addStockField = () => {
         setFormData((prevState) => ({
             ...prevState,
@@ -111,6 +108,12 @@ function EditProduct() {
     }));
 };
 
+const handleCategoryChange = (e) => {
+    setFormData((prevState) => ({
+        ...prevState,
+        category: e.target.value, // Update the selected category
+    }));
+};
 /////validation////
 const validate = () =>{
     let isValid = true;
@@ -145,10 +148,8 @@ const validate = () =>{
     setErrors(errors)
     return isValid;
 }
-
-
     return (
-        <div className="flex justify-center pt-56">
+        <div className="flex justify-center py-40">
             <form onSubmit={handleSubmit} className="flex flex-col  h-auto gap-4 shadow-xl p-10 rounded-2xl">
                 <input className="input input-bordered" name="name" value={formData.name} type="text" placeholder="Product name.." onChange={handleChange} />
                 {errors.name && <p className="text-red-500 text-[12px]">{errors.name}</p>}
@@ -181,6 +182,20 @@ const validate = () =>{
                 <button type="button" className="btn" onClick={addStockField}>
                     Add Another Size
                 </button>
+                <select
+                    className="input input-bordered"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleCategoryChange}
+                >
+                    <option value="">Select Category</option>
+                    {categories.map((category) => (
+                        <option key={category._id} value={category.name}>{category.name}</option>
+                    ))}
+                </select>
+                {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}
+
+                
                 <input className="file-input file-input-bordered file-input-md w-full max-w-xs" name="image" onChange={handleImageChange} type="file" />
                 {errors.image && <p className="text-red-500 text-[12px]">{errors.image}</p>}
                 <button className="btn"> Add</button>

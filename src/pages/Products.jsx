@@ -1,24 +1,34 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteProduct, getAllProducts } from "./../Api/productsapi";
 import DeleteIcon from "./../Icons/DeleteIcon"
-import { AuthContext } from "../Auth/AuthContext";
 import Skelton from "../components/Skelton";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import EditIcon from "../Icons/EditIcon";
+import AddProduct from "../components/AddProduct";
 
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { category } = useParams(); 
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
         const data = await getAllProducts();
-        setProducts(data.data.data.products);
         console.log(data);
+        if (category) {
+          const filteredProducts = data.data.data.products.filter(
+            (product) => product.category?.name.toLowerCase() === category.toLowerCase()
+          );
+          setProducts(filteredProducts);
+        } else {
+          setProducts(data.data.data.products); // عرض جميع المنتجات
+        }
       } catch (error) {
         console.error("Error fetching products:", error);
       }
@@ -26,7 +36,7 @@ function Products() {
     };
 
     fetchProducts();
-  }, [user]);
+  }, [category]);
 
   const handleDelete = async (id) => {
     try {
@@ -38,43 +48,56 @@ function Products() {
     }
   }
 
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   if (loading) {
     <div><Skelton /></div>
   }
   return (
     <div className="overflow-x-auto ">
+       <div className="mb-4">
+        <button onClick={() => navigate("/products")} className="btn">
+          All
+        </button>
+        <button onClick={() => navigate("/products/man")} className="btn ms-2">
+          Man
+        </button>
+        <button onClick={() => navigate("/products/women")} className="btn ms-2">
+          Women
+        </button>
+        <button onClick={() => navigate("/products/kids")} className="btn ms-2">
+          Kids
+        </button>
+      </div>
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
           <thead className="text-xl ">
             <tr >
-              <th>
-                <label>
-                  <input type="checkbox" className="checkbox hidden" />
-                </label>
-              </th>
+              <th></th>
               <th>Name</th>
               <th>Price</th>
               <th>Description</th>
+              <th>Category</th>
               <th>Quantity & Size</th>
-              <th ></th>
-              <th> 
-                <div className="flex gap-3">
-                <Link to={"/add-product"} className="font-bold btn">
-                  Add Product
-                </Link>
-              </div>
+              <th></th>
+              <th>
+                <div className="flex">
+                  <button onClick={toggleModal} className="font-bold btn">
+                    Add Product
+                  </button>
+                </div>
+
               </th>
             </tr>
           </thead>
           <tbody>
             {/* Map through products and render each row */}
-            {products.map((product) => (
+            {products.map((product, index) => (
               <tr key={product._id}>
                 <th>
-                  <label>
-                    <input type="checkbox" className="checkbox hidden" />
-                  </label>
+                  <div>{index + 1}</div>
                 </th>
                 <td>
                   <div className="flex items-center gap-3">
@@ -93,6 +116,7 @@ function Products() {
                 <td className="w-32">
                   <div className="text-sm opacity-75 text-center">{product.description}</div>
                 </td>
+                <td className="text-[19px] text-center">{product.category?.name}</td>
                 <td >{product.stock && product.stock.map((item, index) => (
                   <div className="px-10" key={index}>
                     <div className="flex items-start  w-full max-w-xs gap-5">
@@ -114,8 +138,21 @@ function Products() {
         </table>
       </div>
       <div>
+        {isModalOpen && (
+          <div className="modal modal-open">
+            <div className="modal-box">
+              <div className="modal-action">
+                <button className="" onClick={toggleModal}>
+                  <DeleteIcon />
+                </button>
+              </div>
+              <AddProduct />
+            </div>
+          </div>
+        )}
 
       </div>
+
     </div>
   );
 }

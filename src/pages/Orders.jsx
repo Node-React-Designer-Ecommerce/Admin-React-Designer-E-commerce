@@ -16,7 +16,7 @@ useEffect(() => {
       console.log(data);
       setOrders(data.data.data.orders);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching orders:", error);
     }
     setLoading(false);
   };
@@ -50,12 +50,10 @@ if (loading) {
           </thead>
           <tbody>
             {/* Map through products and render each row */}
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <tr key={order._id}>
                 <th>
-                  <label>
-                    <input type="checkbox" className="checkbox hidden" />
-                  </label>
+                  <div>{index + 1}</div>
                 </th>
                 <td>
                   <div className="flex items-center gap-3">

@@ -5,6 +5,6 @@ export const getAllOrders = async () => {
     const res = await axiosInstance.get("/orders");
     return res;
   } catch (error) {
-    console.log("Error Fetching categories", error);
+    console.log("Error Fetching orders", error);
   }
 };

@@ -1,14 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { addProduct } from "../Api/productsapi";
 import { useNavigate } from "react-router";
+import { getCategories } from "../Api/categoryapi";
 
 function AddProduct() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     price: 0,
+    category: "",
     stock: [{
       quantity: 0,
       size: ""
@@ -16,6 +19,19 @@ function AddProduct() {
     image: "",
     error: {}
   });
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategories();
+        setCategories(response.data.data.categories);
+        console.log(response);
+      } catch (error) {
+        console.log("Error fetching categories", error);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -36,6 +52,7 @@ function AddProduct() {
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("price", formData.price);
+    formDataToSend.append("category", formData.category); 
     formData.stock.forEach((item, index) => {
       formDataToSend.append(`stock[${index}][quantity]`, item.quantity);
       formDataToSend.append(`stock[${index}][size]`, item.size);
@@ -46,8 +63,9 @@ function AddProduct() {
     }
     try {
       const res = await addProduct(formDataToSend);
-      setFormData(res.data)
-      navigate("/products")
+      setFormData(res.data.data.product)
+      navigate("/products");
+      window.location.reload();
       console.log("Product added sucessfully", res);
     } catch (error) {
       console.log("Error Add Product", error)
@@ -112,10 +130,9 @@ const validate = () =>{
   setErrors(errors)
   return isValid;
 }
-
   return (
-    <div className="flex justify-center pt-56">
-      <form onSubmit={handleSubmit} className="flex flex-col h-auto gap-4 shadow-xl p-10 rounded-2xl">
+    <div className="flex justify-center ">
+      <form onSubmit={handleSubmit} className="flex flex-col h-auto gap-4  pt-2 rounded-2xl">
         <input className="input input-bordered" name="name" value={formData.name} type="text" placeholder="Product name.." onChange={handleChange} />
         {errors.name && <p className="text-red-500 text-[12px]">{errors.name}</p>}
         <input className="input input-bordered" name="description" value={formData.description} type="text" placeholder="Product description.." onChange={handleChange} />
@@ -133,6 +150,13 @@ const validate = () =>{
         <button type="button" className="btn" onClick={addStockField}>
           Add Another Size
         </button>
+         <select className="input input-bordered" name="category" value={formData.category} onChange={handleChange}>
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>{category.name}</option>
+          ))}
+        </select>
+        {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}
         <input className="file-input file-input-bordered file-input-md w-full max-w-xs" name="image" onChange={handleImageChange} type="file" />
         {errors.image && <p className="text-red-500 text-[12px]">{errors.image}</p>}
         <button className="btn"> Add</button>

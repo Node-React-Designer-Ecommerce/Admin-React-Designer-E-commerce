@@ -9,13 +9,12 @@ import OrderIcon from "../Icons/OrderIcon";
 
 export default function Sidebar() {
     return (
-        <div className="drawer lg:drawer-open flex pt-20">
+        <div className="drawer sm:drawer-open flex pt-20">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-          
             {/* Sidebar */}
             <div className="drawer-side z-10">
                 <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                <ul className="menu text-xl font-bold bg-base-200 min-h-full w-80 p-10 gap-6 flex items-start">
+                <ul className="menu text-xl font-bold bg-base-200 min-h-full w-80 sm:p-10 gap-6 flex items-start">
                     {/* Sidebar content here */}
                     <li><Link to={"dashboard"} className="m-auto"><HomeIcon/> Dashboard</Link></li>
                     <li><Link to={"products"} className="m-auto"><ProductsIcon/> Products</Link></li>
