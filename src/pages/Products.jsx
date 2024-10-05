@@ -4,12 +4,10 @@ import DeleteIcon from "./../Icons/DeleteIcon";
 import Skelton from "../components/Skelton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import EditIcon from "../Icons/EditIcon";
-import AddProduct from "../components/AddProduct";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { category } = useParams();
   const navigate = useNavigate();
 
@@ -49,9 +47,6 @@ function Products() {
     }
   };
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
   if (loading) {
     <div>
       <Skelton />
@@ -79,7 +74,7 @@ function Products() {
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
-          <thead className="text-center text-2xl text-purpleColor">
+          <thead className="text-center text-2xl">
             <tr>
               <th></th>
               <th>Name</th>
@@ -90,12 +85,12 @@ function Products() {
               <th></th>
               <th>
                 <div className="flex">
-                  <button
-                    onClick={toggleModal}
-                    className="font-bold btn bg-mintColor text-white text-lg hover:bg-purpleColor"
+                  <Link
+                    to={"/add-product"}
+                    className="font-bold btn "
                   >
                     Add Product
-                  </button>
+                  </Link>
                 </div>
               </th>
             </tr>
@@ -165,18 +160,6 @@ function Products() {
         </table>
       </div>
       <div>
-        {isModalOpen && (
-          <div className="modal modal-open">
-            <div className="modal-box">
-              <div className="modal-action">
-                <button className="" onClick={toggleModal}>
-                  <DeleteIcon />
-                </button>
-              </div>
-              <AddProduct />
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

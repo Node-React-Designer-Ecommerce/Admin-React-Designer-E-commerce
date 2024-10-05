@@ -65,7 +65,6 @@ function AddProduct() {
       const res = await addProduct(formDataToSend);
       setFormData(res.data.data.product)
       navigate("/products");
-      window.location.reload();
       console.log("Product added sucessfully", res);
     } catch (error) {
       console.log("Error Add Product", error)
@@ -131,8 +130,8 @@ const validate = () =>{
   return isValid;
 }
   return (
-    <div className="flex justify-center ">
-      <form onSubmit={handleSubmit} className="flex flex-col h-auto gap-4  pt-2 rounded-2xl">
+    <div className="flex justify-center py-40">
+      <form onSubmit={handleSubmit} className="flex flex-col h-auto gap-4 shadow-xl p-10 rounded-2xl">
         <input className="input input-bordered" name="name" value={formData.name} type="text" placeholder="Product name.." onChange={handleChange} />
         {errors.name && <p className="text-red-500 text-[12px]">{errors.name}</p>}
         <input className="input input-bordered" name="description" value={formData.description} type="text" placeholder="Product description.." onChange={handleChange} />

@@ -165,8 +165,7 @@ const validate = () =>{
                             value={stockItem.quantity || 0} // Default to 0
                             type="number"
                             placeholder="Quantity.."
-                            onChange={(e) => handleStockChange(index, e)}
-                        />
+                            onChange={(e) => handleStockChange(index, e)}/>
                         {errors.quantity && <p className="text-red-500 text-[12px]">{errors.quantity}</p>}
                         <input
                             className="input input-bordered"
@@ -174,8 +173,7 @@ const validate = () =>{
                             value={stockItem.size || ""} // Default to empty string
                             type="text"
                             placeholder="Size.."
-                            onChange={(e) => handleStockChange(index, e)}
-                        />
+                            onChange={(e) => handleStockChange(index, e)}/>
                         {errors.size && <p className="text-red-500 text-[12px]">{errors.size}</p>}
                     </div>
                 ))}
@@ -186,16 +184,13 @@ const validate = () =>{
                     className="input input-bordered"
                     name="category"
                     value={formData.category}
-                    onChange={handleCategoryChange}
-                >
+                    onChange={handleCategoryChange}>
                     <option value="">Select Category</option>
                     {categories.map((category) => (
-                        <option key={category._id} value={category.name}>{category.name}</option>
+                        <option key={category._id} value={category._id}>{category.name}</option>
                     ))}
                 </select>
-                {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}
-
-                
+                {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}                
                 <input className="file-input file-input-bordered file-input-md w-full max-w-xs" name="image" onChange={handleImageChange} type="file" />
                 {errors.image && <p className="text-red-500 text-[12px]">{errors.image}</p>}
                 <button className="btn"> Add</button>
