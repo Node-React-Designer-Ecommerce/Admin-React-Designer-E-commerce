@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
 import { deleteProduct, getAllProducts } from "./../Api/productsapi";
-import DeleteIcon from "./../Icons/DeleteIcon"
+import DeleteIcon from "./../Icons/DeleteIcon";
 import Skelton from "../components/Skelton";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import EditIcon from "../Icons/EditIcon";
 import AddProduct from "../components/AddProduct";
-
+import EditProduct from "../components/EditProduct";
 
 function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
   const { category } = useParams(); 
   const navigate = useNavigate();
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -48,12 +49,42 @@ function Products() {
     }
   }
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+  const toggleAddModal = () => {
+    setIsAddModalOpen(!isAddModalOpen);
+    if (!isAddModalOpen) {
+      window.history.pushState({}, "", "/add-product");
+    } else {
+      window.history.pushState({}, "", "/products");
+    }
   };
+
+  const toggleEditModal = (productId) => {
+    setSelectedProductId(productId);
+    setIsEditModalOpen(!isEditModalOpen);
+    if (!isEditModalOpen) {
+      window.history.pushState({}, "", `/edit-product/${productId}`);
+    } else {
+      window.history.pushState({}, "", "/products");
+    }
+  };
+
+  useEffect(() => {
+    if (window.location.pathname === "/add-product") {
+      setIsAddModalOpen(true);
+    } else if (window.location.pathname.startsWith("/edit-product/")) {
+      const productId = window.location.pathname.split("/").pop();
+      setSelectedProductId(productId);
+      setIsEditModalOpen(true);
+    } else {
+      setIsAddModalOpen(false);
+      setIsEditModalOpen(false);
+    }
+  }, [window.location.pathname]);
+
   if (loading) {
-    <div><Skelton /></div>
+    return <div><Skelton /></div>;
   }
+
   return (
     <div className="overflow-x-auto ">
        <div className="mb-4">
@@ -84,11 +115,10 @@ function Products() {
               <th></th>
               <th>
                 <div className="flex">
-                  <button onClick={toggleModal} className="font-bold btn">
+                  <button onClick={toggleAddModal} className="font-bold btn">
                     Add Product
                   </button>
                 </div>
-
               </th>
             </tr>
           </thead>
@@ -130,7 +160,7 @@ function Products() {
                   <button onClick={() => handleDelete(product._id)}><DeleteIcon /></button>
                 </td>
                 <td>
-                  <Link to={`/edit-product/${product._id}`}><EditIcon /></Link>
+                  <button onClick={() => toggleEditModal(product._id)}><EditIcon /></button>
                 </td>
               </tr>
             ))}
@@ -138,11 +168,11 @@ function Products() {
         </table>
       </div>
       <div>
-        {isModalOpen && (
+        {isAddModalOpen && (
           <div className="modal modal-open">
             <div className="modal-box">
               <div className="modal-action">
-                <button className="" onClick={toggleModal}>
+                <button className="" onClick={toggleAddModal}>
                   <DeleteIcon />
                 </button>
               </div>
@@ -150,9 +180,19 @@ function Products() {
             </div>
           </div>
         )}
-
+        {isEditModalOpen && selectedProductId && (
+          <div className="modal modal-open">
+            <div className="modal-box">
+              <div className="modal-action">
+                <button className="" onClick={() => toggleEditModal(null)}>
+                  <DeleteIcon />
+                </button>
+              </div>
+              <EditProduct productId={selectedProductId} />
+            </div>
+          </div>
+        )}
       </div>
-
     </div>
   );
 }

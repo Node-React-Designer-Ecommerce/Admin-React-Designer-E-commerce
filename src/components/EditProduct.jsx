@@ -1,11 +1,9 @@
-import {  useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router"
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { getOneProduct, updateProduct } from "../Api/productsapi";
 import { getCategories } from './../Api/categoryapi';
 
-function EditProduct() {
-    const navigate = useNavigate();
-    const { id } = useParams();
+function EditProduct({ productId }) {
     const [errors, setErrors] = useState({});
     const [categories, setCategories] = useState([]);
     const [formData, setFormData] = useState({ 
@@ -23,22 +21,22 @@ function EditProduct() {
 
     useEffect(() => {
         const fetchProduct = async () => {
-                try {
-                    const res = await getOneProduct(id);
-                    console.log("Fetched product data:", res.data.data.product);
-                    setFormData({ ...formData,
-                        name: res.data.data.product.name || "",
-                        description: res.data.data.product.description || "",
-                        price: res.data.data.product.price || 0,
-                        category: res.data.data.product.category || "",
-                        stock: res.data.data.product.stock || [{ quantity: 0, size: "" }],
-                        image: res.data.data.product.image || "",
-                        error: {}
-                    });
-                } catch (error) {
-                    console.error("Error fetching product", error);
-                }
+            try {
+                const res = await getOneProduct(productId);
+                console.log("Fetched product data:", res.data.data.product);
+                setFormData({ 
+                    name: res.data.data.product.name || "",
+                    description: res.data.data.product.description || "",
+                    price: res.data.data.product.price || 0,
+                    category: res.data.data.product.category || "",
+                    stock: res.data.data.product.stock || [{ quantity: 0, size: "" }],
+                    image: res.data.data.product.image || "",
+                    error: {}
+                });
+            } catch (error) {
+                console.error("Error fetching product", error);
             }
+        }
 
         const fetchCategories = async () => {
             try {
@@ -51,7 +49,7 @@ function EditProduct() {
 
         fetchProduct();
         fetchCategories();
-    }, [id]);
+    }, [productId]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -69,10 +67,9 @@ function EditProduct() {
             return; 
         }
         try {
-            const res = await updateProduct(id, formData);
+            const res = await updateProduct(productId, formData);
             console.log(res.data)
             setFormData(res.data)
-            navigate("/products")
             console.log("Product updated successfully", res);
         } catch (error) {
             if (error.res) {
@@ -101,53 +98,54 @@ function EditProduct() {
     };
 
     const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-        ...prevState,
-        [name]: value 
-    }));
-};
+        const { name, value } = e.target;
+        setFormData((prevState) => ({
+            ...prevState,
+            [name]: value 
+        }));
+    };
 
-const handleCategoryChange = (e) => {
-    setFormData((prevState) => ({
-        ...prevState,
-        category: e.target.value, // Update the selected category
-    }));
-};
-/////validation////
-const validate = () =>{
-    let isValid = true;
-    let errors = {};
-    const { name , description, price, image} = formData;
-    if(!name.trim()) {
-        errors.name = "Name is required"
-        isValid = false;
-    }
-    if(!description.trim()){
-        errors.description = "Descriptions is required";
-        isValid = false;
-    }
-    if(price <= 0){
-        errors.price = "Price must be greater than 0"
-        isValid = false;
-    }
-    formData.stock.forEach((item, index)=> {
-        if (item.quantity <= 0) {
-            errors[`stockQuantity${index}`] = "Quantity must be greater than 0";
+    const handleCategoryChange = (e) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            category: e.target.value, // Update the selected category
+        }));
+    };
+
+    const validate = () =>{
+        let isValid = true;
+        let errors = {};
+        const { name , description, price, image} = formData;
+        if(!name.trim()) {
+            errors.name = "Name is required"
             isValid = false;
         }
-        if (!item.size.trim()) {
-            errors[`stockSize${index}`] = "Size is required";
+        if(!description.trim()){
+            errors.description = "Descriptions is required";
             isValid = false;
         }
-    })
-    if(!image)  {
-        errors.image = "Product image is required"
-        isValid = false;
+        if(price <= 0){
+            errors.price = "Price must be greater than 0"
+            isValid = false;
+        }
+        formData.stock.forEach((item, index)=> {
+            if (item.quantity <= 0) {
+                errors[`stockQuantity${index}`] = "Quantity must be greater than 0";
+                isValid = false;
+            }
+            if (!item.size.trim()) {
+                errors[`stockSize${index}`] = "Size is required";
+                isValid = false;
+            }
+        })
+        if(!image)  {
+            errors.image = "Product image is required"
+            isValid = false;
+        }
+        setErrors(errors)
+        return isValid;
     }
-    setErrors(errors)
-    return isValid;
-}
+
     return (
         <div className="flex justify-center py-40">
             <form onSubmit={handleSubmit} className="flex flex-col  h-auto gap-4 shadow-xl p-10 rounded-2xl">
@@ -194,14 +192,16 @@ const validate = () =>{
                     ))}
                 </select>
                 {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}
-
-                
                 <input className="file-input file-input-bordered file-input-md w-full max-w-xs" name="image" onChange={handleImageChange} type="file" />
                 {errors.image && <p className="text-red-500 text-[12px]">{errors.image}</p>}
-                <button className="btn"> Add</button>
+                <button className="btn"> Update</button>
             </form>
         </div>
-    )
+    );
 }
 
-export default EditProduct
+EditProduct.propTypes = {
+    productId: PropTypes.string.isRequired,
+};
+
+export default EditProduct;
