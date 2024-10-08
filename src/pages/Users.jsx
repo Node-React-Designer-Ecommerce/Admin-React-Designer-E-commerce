@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllUsers } from "../Api/usersApi";
+import { getAllUsers } from "../Utilities/Api/usersApi";
 import Skelton from "../layout/Skelton";
 
 function Users() {

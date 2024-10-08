@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllDesigns } from "../Api/designsApi";
+import { getAllDesigns } from "../Utilities/Api/designsApi";
 
 export default function Designs() {
   const [designs, setdesigns] = useState([]);

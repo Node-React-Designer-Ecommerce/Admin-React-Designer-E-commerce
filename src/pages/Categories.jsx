@@ -4,7 +4,7 @@ import {
   deleteCategory,
   getCategories,
   updateCategory,
-} from "../Api/categoryapi";
+} from "../Utilities/Api/categoryapi";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

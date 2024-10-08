@@ -1,7 +1,7 @@
 import {  useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router"
-import { getOneProduct, updateProduct } from "../Api/productsapi";
-import { getCategories } from './../Api/categoryapi';
+import { getOneProduct, updateProduct } from "../Utilities/Api/productsapi";
+import { getCategories } from '../Utilities/Api/categoryapi';
 
 function EditProduct() {
     const navigate = useNavigate();

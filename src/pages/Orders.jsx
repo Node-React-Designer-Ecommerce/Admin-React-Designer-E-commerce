@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../Auth/AuthContext";
-import { getAllOrders } from "../Api/ordersapi";
+import { getAllOrders } from "../Utilities/Api/ordersapi";
 import Skelton from "../components/Skelton";
+import AuthContext from "../context/AuthContext";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
