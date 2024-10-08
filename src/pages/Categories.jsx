@@ -1,30 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import {
   addCategory,
-  deleteCategory,
   getCategories,
   updateCategory,
 } from "../Utilities/Api/categoryapi";
+import AddCategoryForm from "../components/AddCategoryForm";
+import EditCategoryForm from "../components/EditCategoryForm";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
-  const [newCategoryData, setNewCategoryData] = useState({
+  const [addCategoryData, setAddCategoryData] = useState({
     name: "",
     description: "",
   });
+  const [editCategoryData, setEditCategoryData] = useState({
+    name: "",
+    description: "",
+  });
+  const [isAdding, setIsAdding] = useState(false);
 
-  const [isAdding, setIsAdding] = useState(false); // متغير لتتبع حالة الإضافة
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const res = await getCategories();
-        console.log(res);
         setCategories(res.data.data.categories);
-        setFilteredCategories(res.data.data.categories);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -34,72 +36,49 @@ const Categories = () => {
     fetchCategories();
   }, []);
 
-  // تصفية الفئات بناءً على نص البحث
-  useEffect(() => {
-    const filtered = categories.filter(
+  const filteredCategories = useMemo(() => {
+    return categories.filter(
       (category) =>
         (category.name &&
           category.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (category.description &&
           category.description.toLowerCase().includes(searchTerm.toLowerCase()))
     );
-    setFilteredCategories(filtered);
   }, [searchTerm, categories]);
 
-  // حذف الفئة
-  const handleDelete = async (id) => {
-    try {
-      await deleteCategory(id);
-      setCategories(categories.filter((category) => category._id !== id));
-      setFilteredCategories(
-        filteredCategories.filter((category) => category._id !== id)
-      );
-      console.log("Category deleted successfully");
-    } catch (error) {
-      console.error("Error deleting category:", error);
-    }
-  };
 
-  // عند الضغط على زر التعديل
+
   const handleEdit = (category) => {
     setEditingCategory(category);
-    setNewCategoryData({
+    setEditCategoryData({
       name: category.name,
       description: category.description,
     });
   };
 
-  // حفظ التعديلات
   const handleSave = async () => {
     try {
-      await updateCategory(editingCategory._id, newCategoryData);
+      await updateCategory(editingCategory._id, editCategoryData);
       const updatedCategories = categories.map((category) =>
         category._id === editingCategory._id
-          ? { ...category, ...newCategoryData }
+          ? { ...category, ...editCategoryData }
           : category
       );
       setCategories(updatedCategories);
-      setFilteredCategories(updatedCategories);
       setEditingCategory(null);
+      setEditCategoryData({ name: "", description: "" });
     } catch (error) {
       console.error("Error updating category:", error);
     }
   };
 
-  // إضافة فئة جديدة
   const handleAddCategory = async () => {
     try {
-      const res = await addCategory(newCategoryData);
-      console.log(res);
+      const res = await addCategory(addCategoryData);
       const addedCategory = res.data.data;
       setCategories((prevCategories) => [...prevCategories, addedCategory]);
-      setFilteredCategories((prevFilteredCategories) => [
-        ...prevFilteredCategories,
-        addedCategory,
-      ]);
-      setNewCategoryData({ name: "", description: "" });
+      setAddCategoryData({ name: "", description: "" });
       setIsAdding(false);
-      console.log("Category added successfully");
     } catch (error) {
       console.error("Error adding category:", error);
     }
@@ -118,44 +97,19 @@ const Categories = () => {
           />
           <button
             className="btn bg-mintColor rounded text-white"
-            onClick={() => setIsAdding(!isAdding)} // Toggle the add category form
+            onClick={() => setIsAdding(!isAdding)}
           >
             {isAdding ? "Cancel" : "Add Category"}
           </button>
         </div>
 
-        {/* نموذج إضافة فئة جديدة */}
         {isAdding && (
-          <div className="flex flex-col mb-4">
-            <h3 className="text-purpleColor">Add New Category</h3>
-            <input
-              type="text"
-              placeholder="Category Name"
-              className="input input-bordered mb-3"
-              value={newCategoryData.name}
-              onChange={(e) =>
-                setNewCategoryData({ ...newCategoryData, name: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Category Description"
-              className="input input-bordered"
-              value={newCategoryData.description}
-              onChange={(e) =>
-                setNewCategoryData({
-                  ...newCategoryData,
-                  description: e.target.value,
-                })
-              }
-            />
-            <button
-              className="btn bg-mintColor text-white mt-2 rounded text-lg"
-              onClick={handleAddCategory}
-            >
-              Submit
-            </button>
-          </div>
+          <AddCategoryForm
+            newCategoryData={addCategoryData}
+            setNewCategoryData={setAddCategoryData}
+            handleAddCategory={handleAddCategory}
+            setIsAdding={setIsAdding}
+          />
         )}
 
         <div className="overflow-x-auto">
@@ -178,16 +132,10 @@ const Categories = () => {
                     <td>
                       {editingCategory &&
                       editingCategory._id === category._id ? (
-                        <input
-                          type="text"
-                          className="input input-bordered w-full "
-                          value={newCategoryData.name}
-                          onChange={(e) =>
-                            setNewCategoryData({
-                              ...newCategoryData,
-                              name: e.target.value,
-                            })
-                          }
+                        <EditCategoryForm
+                          newCategoryData={editCategoryData}
+                          setNewCategoryData={setEditCategoryData}
+                          handleSave={handleSave}
                         />
                       ) : (
                         category.name || "No Name"
@@ -196,16 +144,10 @@ const Categories = () => {
                     <td>
                       {editingCategory &&
                       editingCategory._id === category._id ? (
-                        <input
-                          type="text"
-                          className="input input-bordered w-full"
-                          value={newCategoryData.description}
-                          onChange={(e) =>
-                            setNewCategoryData({
-                              ...newCategoryData,
-                              description: e.target.value,
-                            })
-                          }
+                        <EditCategoryForm
+                          newCategoryData={editCategoryData}
+                          setNewCategoryData={setEditCategoryData}
+                          handleSave={handleSave}
                         />
                       ) : (
                         category.description || "No Description"
@@ -228,12 +170,7 @@ const Categories = () => {
                           Edit
                         </button>
                       )}
-                      <button
-                        className="btn bg-red-700 text-white ml-2 rounded"
-                        onClick={() => handleDelete(category._id)}
-                      >
-                        Delete
-                      </button>
+
                     </td>
                   </tr>
                 ))}

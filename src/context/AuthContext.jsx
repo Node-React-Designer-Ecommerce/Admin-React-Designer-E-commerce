@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
-import axiosInstance from "../Utilities/Api/axiosInstance";
 
 const AuthContext = createContext();
 
@@ -40,22 +39,6 @@ export const AuthProvider = ({ children }) => {
         secure: true,
         sameSite: "strict",
       });
-      const fetchUserData = async () => {
-        try {
-          const response = await axiosInstance.get("/users/me", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          setUserId(response?.data?.data?.user?._id);
-          setUserProfile(response?.data?.data?.user);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
-
-      fetchUserData();
     } else {
       Cookies.remove("adminToken");
       Cookies.remove("isAdminLoggedIn");
@@ -78,6 +61,10 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setIsLoggedIn(false);
     setRole(null);
+    Cookies.remove("adminToken");
+    Cookies.remove("isAdminLoggedIn");
+    Cookies.remove("adminRole");
+    window.location.href = "/login"; // Redirect to login page
   };
 
   return (

@@ -144,7 +144,7 @@ function Products() {
                       </div>
                     ))}
                 </td>
-                <td>
+                <td className="pt-4">
                   <button onClick={() => handleDelete(product._id)}>
                     <DeleteIcon />
                   </button>

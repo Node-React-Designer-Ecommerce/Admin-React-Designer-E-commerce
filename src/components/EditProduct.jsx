@@ -17,7 +17,6 @@ function EditProduct() {
             quantity: 0,
             size: ""
         }],
-        image: "",
         error: {}
     });
 
@@ -32,7 +31,6 @@ function EditProduct() {
                         price: res.data.data.product.price || 0,
                         category: res.data.data.product.category || "",
                         stock: res.data.data.product.stock || [{ quantity: 0, size: "" }],
-                        image: res.data.data.product.image || "",
                         error: {}
                     });
                 } catch (error) {
@@ -53,13 +51,7 @@ function EditProduct() {
         fetchCategories();
     }, [id]);
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setFormData((prevState) => ({
-            ...prevState,
-            image: file,
-        }));
-    };
+
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -118,7 +110,7 @@ const handleCategoryChange = (e) => {
 const validate = () =>{
     let isValid = true;
     let errors = {};
-    const { name , description, price, image} = formData;
+    const { name , description, price} = formData;
     if(!name.trim()) {
         errors.name = "Name is required"
         isValid = false;
@@ -141,10 +133,7 @@ const validate = () =>{
             isValid = false;
         }
     })
-    if(!image)  {
-        errors.image = "Product image is required"
-        isValid = false;
-    }
+
     setErrors(errors)
     return isValid;
 }
@@ -191,8 +180,6 @@ const validate = () =>{
                     ))}
                 </select>
                 {errors.category && <p className="text-red-500 text-[12px]">{errors.category}</p>}                
-                <input className="file-input file-input-bordered file-input-md w-full max-w-xs" name="image" onChange={handleImageChange} type="file" />
-                {errors.image && <p className="text-red-500 text-[12px]">{errors.image}</p>}
                 <button className="btn"> Add</button>
             </form>
         </div>
