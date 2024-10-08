@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(() => {
-    const storedToken = Cookies.get("adminToken");
-    return storedToken || null; // No need to parse since it's stored as a string
+  const [adminToken, setadminToken] = useState(() => {
+    const storedadminToken = Cookies.get("adminadminToken");
+    return storedadminToken || null; // No need to parse since it's stored as a string
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -23,12 +23,12 @@ export const AuthProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (token && role === "admin") {
-      Cookies.set("adminToken", token, {
+    if (adminToken && role === "admin") {
+      Cookies.set("adminadminToken", adminToken, {
         expires: 7,
         secure: true,
         sameSite: "strict",
-      }); // Store token directly
+      }); // Store adminToken directly
       Cookies.set("isAdminLoggedIn", JSON.stringify(true), {
         expires: 7,
         secure: true,
@@ -40,35 +40,35 @@ export const AuthProvider = ({ children }) => {
         sameSite: "strict",
       });
     } else {
-      Cookies.remove("adminToken");
+      Cookies.remove("adminadminToken");
       Cookies.remove("isAdminLoggedIn");
       Cookies.remove("adminRole");
       setUserId(null);
       setUserProfile(null);
       setRole(null);
     }
-  }, [token, role]);
+  }, [adminToken, role]);
 
-  const login = (token, role) => {
+  const login = (adminToken, role) => {
     if (role === "admin") {
-      setToken(token);
+      setadminToken(adminToken);
       setIsLoggedIn(true);
       setRole(role);
     }
   };
 
   const logout = () => {
-    setToken(null);
+    setadminToken(null);
     setIsLoggedIn(false);
     setRole(null);
-    Cookies.remove("adminToken");
+    Cookies.remove("adminadminToken");
     Cookies.remove("isAdminLoggedIn");
     Cookies.remove("adminRole");
     window.location.href = "/login"; // Redirect to login page
   };
 
   return (
-    <AuthContext.Provider value={{ token, isLoggedIn, userId, userProfile, role, login, logout }}>
+    <AuthContext.Provider value={{ adminToken, isLoggedIn, userId, userProfile, role, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
