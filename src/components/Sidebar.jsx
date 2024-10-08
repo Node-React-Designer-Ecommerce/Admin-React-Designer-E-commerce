@@ -16,10 +16,10 @@ export default function Sidebar() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu text-xl font-bold  min-h-full w-80 sm:p-10 gap-6 flex items-start bg-zinc-200">
+        <ul className="menu text-xl font-bold  h-svh w-80 sm:p-10 gap-6 flex items-start bg-zinc-200">
           {/* Sidebar content here */}
           <li>
-            <Link to={"dashboard"} className="m-auto">
+            <Link to={""} className="m-auto">
               <HomeIcon /> Dashboard
             </Link>
           </li>
