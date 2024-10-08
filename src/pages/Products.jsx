@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteProduct, getAllProducts } from "../Utilities/Api/productsapi";
+import { deleteProduct, getAllProducts } from "./../Api/productsapi";
 import DeleteIcon from "./../Icons/DeleteIcon";
 import Skelton from "../components/Skelton";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -50,11 +50,32 @@ function Products() {
     }
   };
 
+  const handleDeleteConfirm = (id) => {
+    setProductToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setProductToDelete(null);
+    setShowModal(false);
+  };
+
+  const handleDeleteConfirmed = () => {
+    if (productToDelete) {
+      handleDelete(productToDelete);
+    }
+    setProductToDelete(null);
+    setShowModal(false);
+  };
+
   if (loading) {
-    <div>
-      <Skelton />
-    </div>;
+    return (
+      <div>
+        <Skelton />
+      </div>
+    );
   }
+
   return (
     <div className="overflow-x-auto ">
       <div className="mb-4 flex justify-center">
@@ -144,8 +165,8 @@ function Products() {
                       </div>
                     ))}
                 </td>
-                <td className="pt-4">
-                  <button onClick={() => handleDelete(product._id)}>
+                <td>
+                  <button onClick={() => handleDeleteConfirm(product._id)}>
                     <DeleteIcon />
                   </button>
                 </td>
@@ -159,8 +180,24 @@ function Products() {
           </tbody>
         </table>
       </div>
-      <div>
-      </div>
+
+      {/* Modal for delete confirmation */}
+      {showModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Delete</h3>
+            <p className="py-4">Are you sure you want to delete this product?</p>
+            <div className="modal-action">
+              <button onClick={handleDeleteConfirmed} className="btn border border-red-500 bg-white hover:bg-red-500 hover:text-white duration-300 ">
+                Delete
+              </button>
+              <button onClick={handleDeleteCancel} className="btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllDesigns } from "../Utilities/Api/designsApi";
+import Skelton from "../layout/Skelton";
 
 export default function Designs() {
   const [designs, setdesigns] = useState([]);
