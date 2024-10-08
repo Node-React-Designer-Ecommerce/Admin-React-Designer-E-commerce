@@ -108,7 +108,7 @@ const validate = () =>{
       errors.description = "Descriptions is required";
       isValid = false;
   }
-  if(price < 0){
+  if(price <= 0){
       errors.price = "Price must be greater than 0"
       isValid = false;
   }

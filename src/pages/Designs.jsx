@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllDesigns } from "../Api/designsApi";
+import Skelton from "../layout/Skelton";
 
 export default function Designs() {
   const [designs, setdesigns] = useState([]);
@@ -20,12 +21,15 @@ export default function Designs() {
     };
     getDesigns();
   }, []);
+  if(loading) {
+    <Skelton/>
+  }
   return (
-    <div style={{ width: "100%" }} className="bg-lightBackGround w-full ">
+    <div className="w-full">
       <div className="overflow-x-auto  max-w-full ">
         <table className="table w-full">
           {/* head */}
-          <thead className="text-center text-2xl text-purpleColor">
+          <thead className="text-center text-2xl text-black">
             <tr>
               <th>Designs</th>
               <th>price</th>
@@ -55,7 +59,7 @@ export default function Designs() {
                     </div>
                   </td>
                   <td>
-                    <span className="badge badge-ghost badge-sm text-xl p-4">
+                    <span className="text-xl text-center">
                       {design.totalPrice}
                     </span>
                   </td>

@@ -10,6 +10,7 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [activeFilter, setActiveFilter] = useState("all");
   const { category } = useParams();
   const navigate = useNavigate();
 
@@ -77,30 +78,27 @@ function Products() {
 
   return (
     <div className="overflow-x-auto ">
-      <div className="mb-4">
-        <button onClick={() => navigate("/products")} className="btn">
-          All
+      <div className="mb-4 flex justify-center">
+        <button onClick={() => {setActiveFilter("all"); navigate("/products");}}
+          className={`btn ${activeFilter === "all" ? "btn-active" : ""}`}> All
         </button>
-        <button onClick={() => navigate("/products/man")} className="btn ms-2">
-          Man
+        <button onClick={() => {setActiveFilter("man"); navigate("/products/man");}}
+         className={`btn ms-2 ${activeFilter === "man" ? "btn-active" : ""}`}>Man
         </button>
-        <button
-          onClick={() => navigate("/products/women")}
-          className="btn ms-2"
-        >
-          Women
+        <button onClick={() => {setActiveFilter("women"); navigate("/products/women");}}
+          className={`btn ms-2 ${activeFilter === "women" ? "btn-active" : ""}`}>Women
         </button>
-        <button onClick={() => navigate("/products/kids")} className="btn ms-2">
-          Kids
+        <button onClick={() => {setActiveFilter("kids"); navigate("/products/kids");}}
+          className={`btn ms-2 ${activeFilter === "kids" ? "btn-active" : ""}`}>Kids
         </button>
       </div>
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
-          <thead className="text-center text-2xl">
+          <thead className="text-center text-black text-2xl">
             <tr>
               <th></th>
-              <th>Name</th>
+              <th className="text-start">Name</th>
               <th>Price</th>
               <th>Description</th>
               <th>Category</th>

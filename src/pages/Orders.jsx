@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Auth/AuthContext";
 import { getAllOrders } from "../Api/ordersapi";
 import Skelton from "../components/Skelton";
+import ShowMore from "../Icons/ShowMore";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
@@ -34,15 +35,16 @@ function Orders() {
       <div className="w-full">
         <table className="table text-2xl">
           {/* head */}
-          <thead className="text-center text-2xl text-purpleColor">
+          <thead className="text-center text-2xl text-black">
             <tr>
               <th>
                 <label>
                   <input type="checkbox" className="checkbox hidden" />
                 </label>
               </th>
-              <th>Customer</th>
-              <th className="text-center">Items</th>
+              <th className="text-start">Customer</th>
+              <th className="text-start">Email</th>
+              <th className="text-start">Items</th>
               <th>OrderStatus</th>
               <th>PaymentStatus</th>
               <th>Total Price</th>
@@ -59,35 +61,52 @@ function Orders() {
                 <td>
                   <div className="flex items-center gap-3">
                     <div>
-                      <div className=" capitalize">{order.customer}</div>
+                      <div className="capitalize">{order.customer?.name}</div>
                       <div className="text-sm opacity-50">
                         {order.createdAt}
                       </div>
                     </div>
                   </div>
                 </td>
-                <td>
-                  {order.items &&
-                    order.items.map((item, index) => (
-                      <div className="px-10" key={index}>
-                        <div className="flex items-start  w-full max-w-xs gap-5">
-                          <p className="text-center text-[20px]">
-                            {" "}
-                            {item.price}
-                          </p>
-                          <p className="opacity-65 ">{"-"}</p>
-                          <p className="text-center text-[20px]">
-                            {" "}
-                            {item.quantity}
-                          </p>
-                          <p className="opacity-65 ">{"-"}</p>
-                          <p className="text-center text-[20px]">
-                            {" "}
-                            {item.size}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+                <td className="text-[18px] opacity-80">{order.customer.email}</td>
+                <td className="flex justify-center ">
+                  <button  onClick={() => document.getElementById('my_modal_3').showModal()}><ShowMore /></button>
+                  <dialog id="my_modal_3" className="modal">
+                    <div className="modal-box">
+                      <form method="dialog">
+                        {/* if there is a button in form, it will close the modal */}
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+                      </form>
+                      <p className="py-2">Order Details</p>
+                      <table className="w-full table-auto">
+                        <thead>
+                          <tr>
+                            <th className=" p-2">Image</th>
+                            <th className=" p-2">Name</th>
+                            <th className=" p-2">Description</th>
+                            <th className=" p-2">Price</th>
+                            <th className=" p-2">Quantity</th>
+                            <th className=" p-2">Size</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {order.items &&
+                            order.items.map((item, index) => (
+                              <tr key={index} className="border-b text-sm">
+                                <td><div className="mask mask-squircle px-0 h-14 w-14">
+                                  <img src={item.product.image} alt={item.product.name} />
+                                </div></td>
+                                <td className="text-center  p-1 text-[18px]">{item.product.name}</td>
+                                <td className="text-center  p-1 text-[18px]">{item.product.description}</td>
+                                <td className="text-center  p-1 text-[18px]">{item.price}</td>
+                                <td className="text-center  p-1 text-[18px]">{item.quantity}</td>
+                                <td className="text-center  p-1 text-[18px]">{item.size}</td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </dialog>
                 </td>
                 <td className="text-sm text-center">{order.orderStatus}</td>
                 <td className="text-sm text-center">{order.orderStatus}</td>

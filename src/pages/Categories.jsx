@@ -5,6 +5,8 @@ import {
   getCategories,
   updateCategory,
 } from "../Api/categoryapi";
+import DeleteIcon from "../Icons/DeleteIcon";
+import EditIcon from "../Icons/EditIcon";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -12,6 +14,8 @@ const Categories = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
   const [newCategoryData, setNewCategoryData] = useState({
     name: "",
     description: "",
@@ -60,6 +64,24 @@ const Categories = () => {
     }
   };
 
+  const handleDeleteConfirm = (id) => {
+    setCategoryToDelete(id);
+    setShowModal(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setCategoryToDelete(null);
+    setShowModal(false);
+  };
+
+  const handleDeleteConfirmed = () => {
+    if (categoryToDelete) {
+      handleDelete(categoryToDelete);
+    }
+    setCategoryToDelete(null);
+    setShowModal(false);
+  };
+
   // عند الضغط على زر التعديل
   const handleEdit = (category) => {
     setEditingCategory(category);
@@ -81,6 +103,7 @@ const Categories = () => {
       setCategories(updatedCategories);
       setFilteredCategories(updatedCategories);
       setEditingCategory(null);
+      window.location.reload();
     } catch (error) {
       console.error("Error updating category:", error);
     }
@@ -105,9 +128,11 @@ const Categories = () => {
     }
   };
 
+
+
   return (
     <div className="w-full">
-      <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-lg">
+      <div className=" p-4">
         <div className="flex justify-between items-center  mb-4">
           <input
             type="text"
@@ -117,7 +142,7 @@ const Categories = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
-            className="btn bg-mintColor rounded text-white"
+            className="btn "
             onClick={() => setIsAdding(!isAdding)} // Toggle the add category form
           >
             {isAdding ? "Cancel" : "Add Category"}
@@ -127,7 +152,7 @@ const Categories = () => {
         {/* نموذج إضافة فئة جديدة */}
         {isAdding && (
           <div className="flex flex-col mb-4">
-            <h3 className="text-purpleColor">Add New Category</h3>
+            <h3 className="py-2">Add New Category</h3>
             <input
               type="text"
               placeholder="Category Name"
@@ -150,7 +175,7 @@ const Categories = () => {
               }
             />
             <button
-              className="btn bg-mintColor text-white mt-2 rounded text-lg"
+              className="btn  mt-2  text-lg"
               onClick={handleAddCategory}
             >
               Submit
@@ -165,14 +190,14 @@ const Categories = () => {
             <p>No categories found</p>
           ) : (
             <table className="table w-full">
-              <thead className="text-center text-2xl text-purpleColor">
+              <thead className="text-center text-2xl text-black">
                 <tr>
                   <th>NAME</th>
                   <th>Description</th>
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="text-lg">
                 {filteredCategories.map((category) => (
                   <tr key={category._id || category.name}>
                     <td>
@@ -180,7 +205,7 @@ const Categories = () => {
                       editingCategory._id === category._id ? (
                         <input
                           type="text"
-                          className="input input-bordered w-full "
+                          className="input input-bordered w-full"
                           value={newCategoryData.name}
                           onChange={(e) =>
                             setNewCategoryData({
@@ -215,25 +240,15 @@ const Categories = () => {
                       {editingCategory &&
                       editingCategory._id === category._id ? (
                         <button
-                          className="btn bg-mintColor text-white rounded"
+                          className="btn"
                           onClick={handleSave}
                         >
                           Save
                         </button>
                       ) : (
-                        <button
-                          className="btn bg-mintColor text-white rounded"
-                          onClick={() => handleEdit(category)}
-                        >
-                          Edit
-                        </button>
+                        <button className="pe-6" onClick={() => handleDeleteConfirm(category._id)}><DeleteIcon/></button>
                       )}
-                      <button
-                        className="btn bg-red-700 text-white ml-2 rounded"
-                        onClick={() => handleDelete(category._id)}
-                      >
-                        Delete
-                      </button>
+                      <button onClick={() => handleEdit(category)}><EditIcon/></button>
                     </td>
                   </tr>
                 ))}
@@ -241,6 +256,23 @@ const Categories = () => {
             </table>
           )}
         </div>
+         {/* Modal for delete confirmation */}
+      {showModal && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Delete</h3>
+            <p className="py-4">Are you sure you want to delete this product?</p>
+            <div className="modal-action">
+              <button onClick={handleDeleteConfirmed} className="btn border border-red-500 bg-white hover:bg-red-500 hover:text-white duration-300 ">
+                Delete
+              </button>
+              <button onClick={handleDeleteCancel} className="btn">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
