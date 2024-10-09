@@ -17,7 +17,8 @@ function Navbar() {
         <div className="relative"> 
         <div className="navbar bg-base-100 w-full fixed z-20 px-8 ">
             <div className="flex-1">
-                <Link to={"/"} className="font-mono font-bold text-2xl hidden md:block ">Admin</Link>
+                <Link to={"/"} className="font-mono font-bold text-2xl hidden md:block "> <img className="h-9" src="/sammlyLogo.png" alt="" />
+                </Link>
                 <ButtonToggle />
             </div>
             <div className="flex-none gap-2">
@@ -26,10 +27,10 @@ function Navbar() {
                 </div>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
+                        <div className="w-20 rounded-full">
                             <img
                                 alt="Tailwind CSS Navbar component"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+                                src="/user.jpg" />
                         </div>
                     </div>
                     <ul

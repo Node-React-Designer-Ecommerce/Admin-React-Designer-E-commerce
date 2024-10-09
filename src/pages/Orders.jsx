@@ -70,8 +70,8 @@ function Orders() {
                 </td>
                 <td className="text-[18px] opacity-80">{order.customer.email}</td>
                 <td className="flex justify-center ">
-                  <button  onClick={() => document.getElementById('my_modal_3').showModal()}><ShowMore /></button>
-                  <dialog id="my_modal_3" className="modal">
+                  <button  onClick={() => document.getElementById(`modal_${order._id}`).showModal()}><ShowMore /></button>
+                  <dialog id={`modal_${order._id}`} className="modal">
                     <div className="modal-box">
                       <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
@@ -91,8 +91,8 @@ function Orders() {
                         </thead>
                         <tbody>
                           {order.items &&
-                            order.items.map((item, index) => (
-                              <tr key={index} className="border-b text-sm">
+                            order.items.map((item) => (
+                              <tr key={item._id} className="border-b text-sm">
                                 <td><div className="mask mask-squircle px-0 h-14 w-14">
                                   <img src={item.product.image} alt={item.product.name} />
                                 </div></td>

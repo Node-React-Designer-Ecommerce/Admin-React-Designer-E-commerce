@@ -6,6 +6,7 @@ import {
 } from "../Utilities/Api/categoryapi";
 import AddCategoryForm from "../components/AddCategoryForm";
 import EditCategoryForm from "../components/EditCategoryForm";
+import EditIcon from "../Icons/EditIcon";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -34,7 +35,7 @@ const Categories = () => {
     };
 
     fetchCategories();
-  }, []);
+  }, [categories]);
 
   const filteredCategories = useMemo(() => {
     return categories.filter(
@@ -75,7 +76,9 @@ const Categories = () => {
   const handleAddCategory = async () => {
     try {
       const res = await addCategory(addCategoryData);
+      console.log(res)
       const addedCategory = res.data.data;
+      console.log(addedCategory)
       setCategories((prevCategories) => [...prevCategories, addedCategory]);
       setAddCategoryData({ name: "", description: "" });
       setIsAdding(false);
@@ -85,9 +88,9 @@ const Categories = () => {
   };
 
   return (
-    <div className="w-full">
-      <div className="border border-gray-300 rounded-lg p-4 bg-white shadow-lg">
-        <div className="flex justify-between items-center  mb-4">
+<div className="w-full">
+      <div className="p-4 w-full">
+        <div className="flex justify-between items-center mb-4">
           <input
             type="text"
             placeholder="Search..."
@@ -96,7 +99,7 @@ const Categories = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
-            className="btn bg-mintColor rounded text-white"
+            className="btn rounded text-black"
             onClick={() => setIsAdding(!isAdding)}
           >
             {isAdding ? "Cancel" : "Add Category"}
@@ -118,8 +121,8 @@ const Categories = () => {
           ) : filteredCategories.length === 0 ? (
             <p>No categories found</p>
           ) : (
-            <table className="table w-full">
-              <thead className="text-center text-2xl text-purpleColor">
+            <table className="table w-full text-xl">
+              <thead className="text-center text-2xl text-black">
                 <tr>
                   <th>NAME</th>
                   <th>Description</th>
@@ -129,49 +132,23 @@ const Categories = () => {
               <tbody>
                 {filteredCategories.map((category) => (
                   <tr key={category._id || category.name}>
-                    <td>
-                      {editingCategory &&
-                      editingCategory._id === category._id ? (
+                    {editingCategory && editingCategory._id === category._id ? (
+                      <td colSpan="3">
                         <EditCategoryForm
                           newCategoryData={editCategoryData}
                           setNewCategoryData={setEditCategoryData}
                           handleSave={handleSave}
                         />
-                      ) : (
-                        category.name || "No Name"
-                      )}
-                    </td>
-                    <td>
-                      {editingCategory &&
-                      editingCategory._id === category._id ? (
-                        <EditCategoryForm
-                          newCategoryData={editCategoryData}
-                          setNewCategoryData={setEditCategoryData}
-                          handleSave={handleSave}
-                        />
-                      ) : (
-                        category.description || "No Description"
-                      )}
-                    </td>
-                    <td>
-                      {editingCategory &&
-                      editingCategory._id === category._id ? (
-                        <button
-                          className="btn bg-mintColor text-white rounded"
-                          onClick={handleSave}
-                        >
-                          Save
-                        </button>
-                      ) : (
-                        <button
-                          className="btn bg-mintColor text-white rounded"
-                          onClick={() => handleEdit(category)}
-                        >
-                          Edit
-                        </button>
-                      )}
-
-                    </td>
+                      </td>
+                    ) : (
+                      <>
+                        <td>{category.name || "No Name"}</td>
+                        <td>{category.description || "No Description"}</td>
+                        <td >
+                          <button onClick={() => handleEdit(category)}> <EditIcon/></button>
+                        </td>
+                      </>
+                    )}
                   </tr>
                 ))}
               </tbody>

@@ -8,7 +8,8 @@ const axiosInstance = axios.create({
 // Request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
-    let token = Cookies.get("adminToken");
+    let token = Cookies.get("adminadminToken");
+    // console.log(token)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

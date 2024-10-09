@@ -14,6 +14,7 @@ export const addCategory = async (categoryData) => {
   try {
     console.log("Adding category with data:", categoryData); // Debugging statement
     const res = await axiosInstance.post("/categories", categoryData);
+    console.log(res)
     return res;
   } catch (error) {
     console.error("Error adding category:", error);

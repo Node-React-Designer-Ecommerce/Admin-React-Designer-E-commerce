@@ -22,9 +22,10 @@ const AddCategoryForm = ({ newCategoryData, setNewCategoryData, handleAddCategor
     }
   };
 
+
   return (
     <div className="flex flex-col mb-4">
-      <h3 className="text-purpleColor">Add New Category</h3>
+      <h3 className="text-black py-2">Add New Category</h3>
       <input
         type="text"
         placeholder="Category Name"
@@ -42,7 +43,7 @@ const AddCategoryForm = ({ newCategoryData, setNewCategoryData, handleAddCategor
       />
       {errors.description && <p className="text-red-500">{errors.description}</p>}
       <button
-        className="btn bg-mintColor text-white mt-2 rounded text-lg"
+        className="btn text-black mt-2 rounded text-lg"
         onClick={handleSubmit}
       >
         Submit

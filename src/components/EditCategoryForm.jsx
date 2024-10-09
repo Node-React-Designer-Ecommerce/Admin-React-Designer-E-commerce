@@ -39,7 +39,7 @@ const EditCategoryForm = ({ newCategoryData, setNewCategoryData, handleSave }) =
       />
       {errors.description && <p className="text-red-500">{errors.description}</p>}
       <button
-        className="btn bg-mintColor text-white rounded"
+        className="btn  text-black rounded"
         onClick={handleSubmit}
       >
         Save

@@ -15,7 +15,7 @@ function Skelton() {
         </thead>
         <tbody>
           {/* Skeleton Rows */}
-          {Array.from({ length: 5 }).map((_, index) => (
+          {Array.from({ length: 20 }).map((_, index) => (
             <tr key={index}>
               <td>
                 <div className="skeleton h-10 w-10"></div>

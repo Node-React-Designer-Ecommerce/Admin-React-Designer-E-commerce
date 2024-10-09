@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { addProduct } from "../Utilities/Api/productsapi";
+import { addProduct } from "../Utilities/Api/productsapi"
 import { useNavigate } from "react-router";
 import { getCategories } from "../Utilities/Api/categoryapi";
 

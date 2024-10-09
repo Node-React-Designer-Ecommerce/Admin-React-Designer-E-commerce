@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteProduct, getAllProducts } from "./../Api/productsapi";
+import { deleteProduct, getAllProducts } from "./../Utilities/Api/productsapi";
 import DeleteIcon from "./../Icons/DeleteIcon";
 import Skelton from "../components/Skelton";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -103,7 +103,7 @@ function Products() {
               <th>Description</th>
               <th>Category</th>
               <th>Quantity & Size</th>
-              <th></th>
+              {/* <th></th> */}
               <th>
                 <div className="flex">
                   <Link
@@ -165,12 +165,11 @@ function Products() {
                       </div>
                     ))}
                 </td>
-                <td>
+                <td className="flex gap-4 h-full my-10">
                   <button onClick={() => handleDeleteConfirm(product._id)}>
                     <DeleteIcon />
                   </button>
-                </td>
-                <td>
+                
                   <Link to={`/edit-product/${product._id}`}>
                     <EditIcon />
                   </Link>
