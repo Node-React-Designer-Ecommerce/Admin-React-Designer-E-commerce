@@ -65,7 +65,7 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto  m-9 rounded-3xl p-5 shadow-[0px_0px_3px_3px_#fbfbfb] h-4/5">
+    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto m-9 rounded-3xl p-5 shadow-xl h-4/5">
       {/* Image Section */}
       <div className="md:order-1 flex justify-center items-center rounded-3xl">
         <img
@@ -81,7 +81,7 @@ export default function Login() {
         className="md:order-2 p-5 rounded-3xl flex flex-col justify-evenly"
       >
         <div>
-          <h1 className="text-center  text-3xl pb-6 text-SecondaryColor font-bold">
+          <h1 className="text-center  text-3xl pb-6 text-mintColor font-bold">
             Admin Log In
           </h1>
         </div>
@@ -91,7 +91,7 @@ export default function Login() {
           <div className="mb-4">
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-mintColor"
             >
               Email address
             </label>
@@ -104,7 +104,7 @@ export default function Login() {
                 type="email"
                 id="email"
                 className={`mt-1 block w-full px-3 py-2 border-b ${errors.email ? "border-b-red-500" : "border-b-gray-300"
-                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-mintColor`}
                 placeholder="Enter email"
               />
               {errors.email && <ErrorIcon />}
@@ -124,7 +124,7 @@ export default function Login() {
           <div className="mb-4">
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-SecondaryColor"
+              className="block text-sm font-medium text-mintColor"
             >
               Password
             </label>
@@ -139,7 +139,7 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 id="password"
                 className={`mt-1 block w-full px-3 py-2 border-b ${errors.password ? "border-b-red-500" : "border-b-gray-300"
-                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-SecondaryColor`}
+                  } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-mintColor`}
                 placeholder="Password"
               />
               {showPassword ? (
@@ -176,7 +176,7 @@ export default function Login() {
           <p className="text-end ">
             <Link
               to="/admin/forget-password"
-              className="font-bold text-SecondaryColor"
+              className="font-bold text-mintColor"
             >
               Forget Password
             </Link>
@@ -185,7 +185,7 @@ export default function Login() {
           {/* is loading button */}
           <button
             type="submit"
-            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-SecondaryColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-SecondaryColor"
+            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-mintColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mintColor"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -197,7 +197,7 @@ export default function Login() {
 
           <p className="text-center mt-5">
             {`Don't have an admin account?`}{" "}
-            <Link to="/admin/sign-up" className="font-bold text-SecondaryColor">
+            <Link to="/admin/sign-up" className="font-bold text-mintColor">
               Signup
             </Link>
           </p>

@@ -73,7 +73,7 @@ function Users() {
                     {user.email}
                   </div>
                 </td>
-                <td></td>
+                <td className="text-sm text-center">{user.phone}</td>
                 <td className="text-[19px] text-center">
                   {user.role}
                 </td>
