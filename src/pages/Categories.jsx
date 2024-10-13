@@ -99,7 +99,7 @@ const Categories = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <button
-            className="btn rounded text-black"
+            className="btn rounded bg-mintColor hover:bg-mintColor text-white"
             onClick={() => setIsAdding(!isAdding)}
           >
             {isAdding ? "Cancel" : "Add Category"}

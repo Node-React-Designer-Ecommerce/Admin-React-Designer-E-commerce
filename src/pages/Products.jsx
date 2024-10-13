@@ -78,7 +78,7 @@ function Products() {
 
   return (
     <div className="overflow-x-auto ">
-      <div className="mb-4 flex justify-center">
+      <div className="mb-4 flex justify-center ">
         <button onClick={() => {setActiveFilter("all"); navigate("/products");}}
           className={`btn ${activeFilter === "all" ? "btn-active" : ""}`}> All
         </button>
@@ -108,7 +108,7 @@ function Products() {
                 <div className="flex">
                   <Link
                     to={"/add-product"}
-                    className="font-bold btn "
+                    className="font-bold btn bg-mintColor hover:bg-mintColor text-white"
                   >
                     Add Product
                   </Link>

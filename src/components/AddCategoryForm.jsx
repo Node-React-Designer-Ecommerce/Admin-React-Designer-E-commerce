@@ -43,7 +43,7 @@ const AddCategoryForm = ({ newCategoryData, setNewCategoryData, handleAddCategor
       />
       {errors.description && <p className="text-red-500">{errors.description}</p>}
       <button
-        className="btn text-black mt-2 rounded text-lg"
+        className="btn bg-mintColor hover:bg-mintColor text-white mt-2 rounded text-lg"
         onClick={handleSubmit}
       >
         Submit
