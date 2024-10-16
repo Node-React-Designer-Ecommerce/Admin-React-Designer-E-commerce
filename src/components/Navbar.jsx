@@ -17,7 +17,7 @@ function Navbar() {
         <div className="relative"> 
         <div className="navbar bg-base-100 w-full fixed z-20 px-8 ">
             <div className="flex-1">
-                <Link to={"/dashboard"} className="font-mono font-bold text-2xl hidden md:block "> <img className="h-9" src="/sammlyLogo.png" alt="" />
+                <Link to={"/dashboard"} className="font-mono font-bold text-2xl"> <img className="h-9" src="/sammlyLogo.png" alt="" />
                 </Link>
                 <ButtonToggle />
             </div>

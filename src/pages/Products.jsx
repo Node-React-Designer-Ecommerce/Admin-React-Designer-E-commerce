@@ -165,7 +165,7 @@ function Products() {
                       </div>
                     ))}
                 </td>
-                <td className="flex gap-4 h-full my-10">
+                <td className="flex justify-center gap-4 h-full my-10">
                   <button onClick={() => handleDeleteConfirm(product._id)}>
                     <DeleteIcon />
                   </button>

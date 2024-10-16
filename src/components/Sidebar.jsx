@@ -16,7 +16,7 @@ export default function Sidebar() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu text-xl font-bold  h-full w-[370px] sm:p-10 gap-6 flex items-start bg-zinc-200">
+        <ul className="menu text-xl font-bold  h-full w-[370px] sm:p-10 gap-6  pt-20 flex items-start bg-zinc-200">
           {/* Sidebar content here */}
           <li>
             <Link to={"dashboard"} className="m-auto">
@@ -54,7 +54,7 @@ export default function Sidebar() {
 
       {/* Main Content */}
       <div className="flex justify-center ">
-        <div className="p-5">
+        <div className="p-3">
           <Outlet />
         </div>
       </div>

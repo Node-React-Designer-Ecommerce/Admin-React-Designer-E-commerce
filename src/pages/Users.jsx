@@ -80,7 +80,7 @@ function Users() {
                 <td></td>
                 <td></td>
                 <td>
-                  <button>
+                  <button className="cursor-not-allowed">
                     <DeleteIcon />
                   </button>
                 </td>

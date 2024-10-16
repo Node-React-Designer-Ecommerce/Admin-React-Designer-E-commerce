@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getOneProduct, updateProduct } from "../Utilities/Api/productsapi";
 import { getCategories } from '../Utilities/Api/categoryapi';
+import ArrowBack from "../Icons/ArrowBack";
 
 function EditProduct() {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ function EditProduct() {
         const fetchCategories = async () => {
             try {
                 const res = await getCategories();
-                setCategories(res.data.data.categories); 
+                setCategories(res.data.data.categories);
             } catch (error) {
                 console.error("Error fetching categories", error);
             }
@@ -140,10 +141,13 @@ function EditProduct() {
     return (
         <div className="flex justify-center py-10 md:py-16">
             <form onSubmit={handleSubmit} className="flex flex-col w-full sm:w-1/2 lg:w-1/3 h-auto gap-4 md:shadow-xl p-10 rounded-2xl">
-                <div className="flex justify-center">
+                <div className="flex justify-center relative">
+                    <button onClick={() => window.history.back()} className="btn btn-xs left-1 w-10 h-10 absolute rounded-3xl">
+                        <ArrowBack />
+                    </button>
                     <p className="font-bold text-4xl text-mintColor">Edit Product</p>
                 </div>
-                
+
                 {/* Name */}
                 <label htmlFor="name">Name</label>
                 <input

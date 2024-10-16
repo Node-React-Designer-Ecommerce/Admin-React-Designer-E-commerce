@@ -89,7 +89,7 @@ const Categories = () => {
 
   return (
 <div className="w-full">
-      <div className="p-4 w-full">
+      <div className="py-4w-full">
         <div className="flex justify-between items-center mb-4">
           <input
             type="text"
@@ -124,6 +124,7 @@ const Categories = () => {
             <table className="table w-full text-xl">
               <thead className="text-center text-2xl text-black">
                 <tr>
+                  <th></th>
                   <th>NAME</th>
                   <th>Description</th>
                   <th>Actions</th>
@@ -142,9 +143,10 @@ const Categories = () => {
                       </td>
                     ) : (
                       <>
+                      <td></td>
                         <td>{category.name || "No Name"}</td>
                         <td>{category.description || "No Description"}</td>
-                        <td >
+                        <td className="flex justify-center">
                           <button onClick={() => handleEdit(category)}> <EditIcon/></button>
                         </td>
                       </>

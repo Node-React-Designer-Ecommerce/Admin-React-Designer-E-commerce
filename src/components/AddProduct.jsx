@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { addProduct } from "../Utilities/Api/productsapi";
 import { useNavigate } from "react-router";
 import { getCategories } from "../Utilities/Api/categoryapi";
+import ArrowBack from "../Icons/ArrowBack";
 
 function AddProduct() {
   const navigate = useNavigate();
@@ -133,7 +134,10 @@ function AddProduct() {
     <div className="flex justify-center py-10 md:py-16">
 
       <form onSubmit={handleSubmit} className="flex flex-col w-full sm:w-1/2 lg:w-1/3 h-auto gap-4 md:shadow-xl p-10 rounded-2xl">
-        <div className="flex justify-center">
+        <div className="flex justify-center relative">
+          <button  onClick={() => window.history.back()} className="btn btn-xs left-1 w-10 h-10 absolute rounded-3xl">
+            <ArrowBack/>
+          </button>
           <p className="font-bold text-4xl text-mintColor">Add Product</p>
         </div>
         {/* Name */}
