@@ -2,7 +2,7 @@
 
 export default function ButtonToggle() {
     return (
-        <label htmlFor="my-drawer-2" className="btn btn-circle swap swap-rotate lg:hidden">
+        <label htmlFor="my-drawer-2" className="btn btn-circle m-auto swap swap-rotate lg:hidden">
             {/* this hidden checkbox controls the state */}
             <input type="checkbox" />
 

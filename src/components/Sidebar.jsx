@@ -7,7 +7,7 @@ import OrderIcon from "../Icons/OrderIcon";
 
 export default function Sidebar() {
   return (
-    <div className="drawer sm:drawer-open flex pt-20 ">
+    <div className="drawer lg:drawer-open flex pt-20 ">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       {/* Sidebar */}
       <div className="drawer-side z-10 ">
