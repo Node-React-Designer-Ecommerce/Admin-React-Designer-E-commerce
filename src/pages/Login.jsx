@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -65,20 +65,11 @@ export default function Login() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto m-9 rounded-3xl p-5 shadow-xl h-4/5">
-      {/* Image Section */}
-      <div className="md:order-1 flex justify-center items-center rounded-3xl">
-        <img
-          src="/admin.jpg"
-          alt="Sign Up"
-          className=" rounded-3xl h-5/5"
-        />
-      </div>
-
+    <div className=" max-w-xl mt-20 mx-auto rounded-3xl p-5 h-full shadow-xl ">
       {/* Form Section */}
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="md:order-2 p-5 rounded-3xl flex flex-col justify-evenly"
+        className="md:order-2 p-5 rounded-3xl h-[420px] flex flex-col justify-evenly"
       >
         <div>
           <h1 className="text-center  text-3xl pb-6 text-mintColor font-bold">
@@ -105,7 +96,7 @@ export default function Login() {
                 id="email"
                 className={`mt-1 block w-full px-3 py-2 border-b ${errors.email ? "border-b-red-500" : "border-b-gray-300"
                   } rounded-none shadow-sm focus:outline-none focus:ring-0 focus:border-b-indigo-500 sm:text-sm hover:border-b-mintColor`}
-                placeholder="Enter email"
+                placeholder="Email"
               />
               {errors.email && <ErrorIcon />}
             </div>
@@ -173,19 +164,10 @@ export default function Login() {
             )}
           </div>
 
-          <p className="text-end ">
-            <Link
-              to="/admin/forget-password"
-              className="font-bold text-mintColor"
-            >
-              Forget Password
-            </Link>
-          </p>
-
           {/* is loading button */}
           <button
             type="submit"
-            className="w-full mt-3 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-mintColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mintColor"
+            className="w-full mt-10 flex justify-center py-2 px-4 border border-transparent rounded-3xl shadow-sm text-sm font-bold text-white bg-mintColor hover:transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mintColor"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -194,13 +176,6 @@ export default function Login() {
               "Login"
             )}
           </button>
-
-          <p className="text-center mt-5">
-            {`Don't have an admin account?`}{" "}
-            <Link to="/admin/sign-up" className="font-bold text-mintColor">
-              Signup
-            </Link>
-          </p>
 
         </div>
       </form>
